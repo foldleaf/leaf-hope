@@ -1,160 +1,166 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>零基础快速上手spring boot | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="# 前言 # 无聊吐槽： 当然以下内容难免会存在错误，但用处应该还是有的，毕竟这是我自己零基础花了三四天到处搜索缝合总结出来的。就像 controller 请求与响应生动讲解这位作者说的，不知道是因为这些东西太简单，还是我太菜还是咋回事，没什么人仔细讲解，要么就大堆术语嵌套术语，对刚接触的人不太友好。下面给出的链接都算是我筛选出的比较容易看得进去的讲解了。 本文的目的：了解一个 spring bo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零基础快速上手spring boot">
+<meta property="og:url" content="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="# 前言 # 无聊吐槽： 当然以下内容难免会存在错误，但用处应该还是有的，毕竟这是我自己零基础花了三四天到处搜索缝合总结出来的。就像 controller 请求与响应生动讲解这位作者说的，不知道是因为这些东西太简单，还是我太菜还是咋回事，没什么人仔细讲解，要么就大堆术语嵌套术语，对刚接触的人不太友好。下面给出的链接都算是我筛选出的比较容易看得进去的讲解了。 本文的目的：了解一个 spring bo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2022-12-01T14:26:10.000Z">
+<meta property="article:modified_time" content="2023-01-22T12:47:06.181Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '零基础快速上手spring boot',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-22 20:47:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
 
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
 
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#FFF">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-
-<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-
-
-<link rel="alternate" type="application/rss+xml" title="Hexo" href="http://example.com/rss.xml" />
-<link rel="alternate" type="application/atom+xml" title="Hexo" href="http://example.com/atom.xml" />
-<link rel="alternate" type="application/json" title="Hexo" href="http://example.com/feed.json" />
-
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-
-<link rel="stylesheet" href="/css/app.css?v=0.2.5">
-
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-
-<link rel="canonical" href="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/">
-
-
-
-  <title>
-零基础快速上手spring boot |
-Yume Shoka = Hexo</title>
-<meta name="generator" content="Hexo 6.3.0"></head>
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div id="loading">
-    <div class="cat">
-      <div class="body"></div>
-      <div class="head">
-        <div class="face"></div>
-      </div>
-      <div class="foot">
-        <div class="tummy-end"></div>
-        <div class="bottom"></div>
-        <div class="legs left"></div>
-        <div class="legs right"></div>
-      </div>
-      <div class="paw">
-        <div class="hands left"></div>
-        <div class="hands right"></div>
-      </div>
-    </div>
-  </div>
-  <div id="container">
-    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="inner">
-        <div id="brand">
-          <div class="pjax">
-          
-  <h1 itemprop="name headline">零基础快速上手spring boot
-  </h1>
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-<div class="meta">
-  <span class="item" title="Created: 2022-12-01 22:26:10">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <span class="text">Posted on</span>
-    <time itemprop="dateCreated datePublished" datetime="2022-12-01T22:26:10+08:00">2022-12-01</time>
-  </span>
-</div>
-
-
-          </div>
-        </div>
-        <nav id="nav">
-  <div class="inner">
-    <div class="toggle">
-      <div class="lines" aria-label="Toggle navigation bar">
-        <span class="line"></span>
-        <span class="line"></span>
-        <span class="line"></span>
-      </div>
-    </div>
-    <ul class="menu">
-      <li class="item title"><a href="/" rel="start">Yume Shoka</a></li>
-    </ul>
-    <ul class="right">
-      <li class="item theme">
-        <i class="ic i-sun"></i>
-      </li>
-      <li class="item search">
-        <i class="ic i-search"></i>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-      </div>
-      <div id="imgs" class="pjax">
-        <ul>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gicitcxhpij20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeu7txpzj20zk0m81kx.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclh3brzpj20zk0m8ann.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipeyvx1d4j20zk0m8hdt.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1gipesng5oej20zk0m87d4.jpg"></li>
-          <li class="item" data-background-image="https://tva4.sinaimg.cn/large/6833939bly1giclhpw3lwj20zk0m8gvw.jpg"></li>
-        </ul>
-      </div>
-    </header>
-    <div id="waves">
-      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-        <defs>
-          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-        </defs>
-        <g class="parallax">
-          <use xlink:href="#gentle-wave" x="48" y="0" />
-          <use xlink:href="#gentle-wave" x="48" y="3" />
-          <use xlink:href="#gentle-wave" x="48" y="5" />
-          <use xlink:href="#gentle-wave" x="48" y="7" />
-        </g>
-      </svg>
-    </div>
-    <main>
-      <div class="inner">
-        <div id="main" class="pjax">
-          
-  <div class="article wrap">
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-<i class="ic i-home"></i>
-<span><a href="/">Home</a></span>
-</div>
-
-    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="en">
-  <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/">
-
-  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="image" content="/images/avatar.jpg">
-    <meta itemprop="name" content="John Doe">
-    <meta itemprop="description" content=", ">
-  </span>
-
-  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo">
-  </span>
-
-  <div class="body md" itemprop="articleBody">
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-
-    <h1 id="前言"><a class="anchor" href="#前言">#</a> 前言</h1>
-<h2 id="无聊吐槽"><a class="anchor" href="#无聊吐槽">#</a> 无聊吐槽：</h2>
-<p>当然以下内容难免会存在错误，但用处应该还是有的，毕竟这是我自己零基础花了三四天到处搜索<s>缝合</s>总结出来的。就像<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjkxMjA3L2FydGljbGUvZGV0YWlscy8xMTA3ODk1Njg="> controller 请求与响应生动讲解</span>这位作者说的，不知道是因为这些东西太简单，还是我太菜还是咋回事，没什么人仔细讲解，要么就大堆术语嵌套术语，对刚接触的人不太友好。下面给出的链接都算是我筛选出的比较容易看得进去的讲解了。</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Hexo"><span class="site-name">Hexo</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">零基础快速上手spring boot</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-12-01T14:26:10.000Z" title="Created 2022-12-01 22:26:10">2022-12-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-01-22T12:47:06.181Z" title="Updated 2023-01-22 20:47:06">2023-01-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="零基础快速上手spring boot"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="前言"><a class="markdownIt-Anchor" href="#前言">#</a> 前言</h1>
+<h2 id="无聊吐槽"><a class="markdownIt-Anchor" href="#无聊吐槽">#</a> 无聊吐槽：</h2>
+<p>当然以下内容难免会存在错误，但用处应该还是有的，毕竟这是我自己零基础花了三四天到处搜索<s>缝合</s>总结出来的。就像<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43291207/article/details/110789568"> controller 请求与响应生动讲解</a>这位作者说的，不知道是因为这些东西太简单，还是我太菜还是咋回事，没什么人仔细讲解，要么就大堆术语嵌套术语，对刚接触的人不太友好。下面给出的链接都算是我筛选出的比较容易看得进去的讲解了。</p>
 <p><strong>本文的目的</strong>：了解一个 spring boot 项目结构的关系，知道我们应该在哪个部分做什么事</p>
-<h2 id="参考项目结构"><a class="anchor" href="#参考项目结构">#</a> 参考项目结构</h2>
-<pre><code>|_java.com.cy.store
+<h2 id="参考项目结构"><a class="markdownIt-Anchor" href="#参考项目结构">#</a> 参考项目结构</h2>
+<pre class="line-numbers language-none"><code class="language-none">|_java.com.cy.store
     |_aop
     |_config
     |_controller
@@ -174,29 +180,28 @@ Yume Shoka = Hexo</title>
     |_static
     |_templates
 
-    application.yml/application.properties
-</code></pre>
-<p>不同项目项目结构不一样，但一般来讲，理清 controller 控制层、service 业务逻辑层、mapper（dao）数据访问层三层关系即可<br />
-<span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMWJmNHkxVjdCeC8/c3BtX2lkX2Zyb209MzMzLjEwMDcudG9wX3JpZ2h0X2Jhcl93aW5kb3dfY3VzdG9tX2NvbGxlY3Rpb24uY29udGVudC5jbGljayZhbXA7dmRfc291cmNlPTE5NWVhZDU4YzdkOWJjZmU5Mjg1MDY5ZjdiNjAxNWVi">推荐项目学习</span>该视频下方有热心小伙伴的文档笔记整理<br />
+    application.yml&#x2F;application.properties<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>不同项目项目结构不一样，但一般来讲，理清 controller 控制层、service 业务逻辑层、mapper（dao）数据访问层三层关系即可<br>
+<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bf4y1V7Bx/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&amp;vd_source=195ead58c7d9bcfe9285069f7b6015eb">推荐项目学习</a>该视频下方有热心小伙伴的文档笔记整理<br>
 个人认为只看一个功能即可，其他大同小异，我只了解完用户注册剩下的大概看看就行了，主要是了解一个 spring boot 项目的整体思路</p>
-<h2 id="三层关系"><a class="anchor" href="#三层关系">#</a> 三层关系</h2>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01jZHVsbF9fL2FydGljbGUvZGV0YWlscy8xMTc0NTA3NjQ=">controller、service、mapper 三层关系梳理 1</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMDI2NjY5L2FydGljbGUvZGV0YWlscy8xMDc0Nzk5Mjc=">controller、service、mapper 三层关系梳理 2</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0xMMTQyODU3L2FydGljbGUvZGV0YWlscy84OTI0MjgxNg=="> 适合理解的比喻</span></p>
-<h1 id="数据库表设计"><a class="anchor" href="#数据库表设计">#</a> 数据库（表）设计</h1>
-<p><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmlsaWJpbGkuY29tL3ZpZGVvL0JWMXc0NHkxNTc2cC8/c3BtX2lkX2Zyb209MzMzLjMzNy5zZWFyY2gtY2FyZC5hbGwuY2xpY2smYW1wO3ZkX3NvdXJjZT0xOTVlYWQ1OGM3ZDliY2ZlOTI4NTA2OWY3YjYwMTVlYg==">快速学习数据库设计步骤</span></p>
-<h1 id="实体层编写实体类"><a class="anchor" href="#实体层编写实体类">#</a> 实体层（编写实体类）</h1>
+<h2 id="三层关系"><a class="markdownIt-Anchor" href="#三层关系">#</a> 三层关系</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Mcdull__/article/details/117450764">controller、service、mapper 三层关系梳理 1</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41026669/article/details/107479927">controller、service、mapper 三层关系梳理 2</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/LL142857/article/details/89242816"> 适合理解的比喻</a></p>
+<h1 id="数据库表设计"><a class="markdownIt-Anchor" href="#数据库表设计">#</a> 数据库（表）设计</h1>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1w44y1576p/?spm_id_from=333.337.search-card.all.click&amp;vd_source=195ead58c7d9bcfe9285069f7b6015eb">快速学习数据库设计步骤</a></p>
+<h1 id="实体层编写实体类"><a class="markdownIt-Anchor" href="#实体层编写实体类">#</a> 实体层（编写实体类）</h1>
 <p>entity（或叫 model）实体，该层存放实体类，属性值与数据库中的属性值保持一致，实现 set 和 get 方法，可使用 @Data 注解自动生成</p>
 <p>多个类拥有同一些属性，可以把这些属性抽取成一个公共基类这样方便我们管理。例如数据库许多实体类都需要有日志相关的四个属性：创建者和时间以及修改者和时间，则可先创建包含这些属性的基类，然后其他实体类再继承这个基类</p>
-<h1 id="持久层-java对象与sql映射mapper接口与xml映射文件绑定"><a class="anchor" href="#持久层-java对象与sql映射mapper接口与xml映射文件绑定">#</a> 持久层 （java 对象与 sql 映射）(Mapper 接口与 xml 映射文件绑定)</h1>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L21laXNtNS9hcnRpY2xlL2RldGFpbHMvMTA4OTcwNTUw">sql 与 xml 绑定</span><br />
+<h1 id="持久层-java对象与sql映射mapper接口与xml映射文件绑定"><a class="markdownIt-Anchor" href="#持久层-java对象与sql映射mapper接口与xml映射文件绑定">#</a> 持久层 （java 对象与 sql 映射）(Mapper 接口与 xml 映射文件绑定)</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/meism5/article/details/108970550">sql 与 xml 绑定</a><br>
  mapper（或叫 dao），为 <code>映射</code> 的意思；dao（data access object），数据访问对象</p>
-<hr />
-<p><code>持久层</code> 的意思是使数据可以永久保持地存储，可以直接理解为对数据库的 CRUD 等操作<br />
+<hr>
+<p><code>持久层</code> 的意思是使数据可以永久保持地存储，可以直接理解为对数据库的 CRUD 等操作<br>
 持久层就是把持久的动作封装成一个独立的层，这是为了降低功能代码之间的关联。创建一个更清晰的抽象，提高代码的内聚力，降低代码的耦合度，提高可维护性和复用性.</p>
-<hr />
+<hr>
 <p><code>Mybatis</code>  对 jdbc 的操作数据库的过程进行封装，通过 xml 或注解的方式将要执行的各种 statement（statement、preparedStatemnt）配置起来，并通过 java 对象和 statement 中的 sql 进行映射生成最终执行的 sql 语句，最后由 mybatis 框架执行 sql 并将结果映射成 java 对象并返回。</p>
-<hr />
+<hr>
 <p>总之：</p>
 <blockquote>
 <ol>
@@ -205,25 +210,25 @@ Yume Shoka = Hexo</title>
 <li>在 resource 文件夹下的 mapper 包编写 xml 映射文件： <code>XxxxMapper.xml</code> ，编写对应 Mapper 接口的方法的 sql（抽象方法的映射配置），接口与 xml 文件绑定</li>
 </ol>
 </blockquote>
-<p>1）Mapper 接口与 XML 文件的绑定是通过 XML 里 mapper 标签的 namespace 值与 Mapper 接口的 包路径。接口名 进行绑定<br />
+<p>1）Mapper 接口与 XML 文件的绑定是通过 XML 里 mapper 标签的 namespace 值与 Mapper 接口的 包路径。接口名 进行绑定<br>
  2） Mapper 接口的方法名与 XML 文件中的 sql、select、insert、update、delete 标签的 id 参数值进行绑定</p>
 <p>在配置文件中说明 xml 配置：mybatis.mapper-locations=classpath:mapper/*.xml</p>
-<hr />
-<h1 id="业务逻辑层"><a class="anchor" href="#业务逻辑层">#</a> 业务逻辑层</h1>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Jvb2tzc2VhL2FydGljbGUvZGV0YWlscy8xMDc0ODg3NDk=">DAO 层和 Service 层的理解</span></p>
-<p>service 服务，此处翻译为业务比较合适，service 层处理业务逻辑<br />
+<hr>
+<h1 id="业务逻辑层"><a class="markdownIt-Anchor" href="#业务逻辑层">#</a> 业务逻辑层</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/bookssea/article/details/107488749">DAO 层和 Service 层的理解</a></p>
+<p>service 服务，此处翻译为业务比较合适，service 层处理业务逻辑<br>
  mapper 层是对数据库的操作，不涉及业务逻辑，具体是对某张表的增删查改</p>
 <p>service 是业务逻辑，一个业务（功能）对应多项操作，需要有数据的处理流程和逻辑</p>
 <pre><code>流程：先做什么，再做什么
 逻辑：能做什么，不能做什么
 </code></pre>
-<hr />
-<p><strong>例：用户注册</strong><br />
- mapper 层： <code>UserMapper</code>  中定义 <code>insert()</code>  方法（插入用户数据）、 <code>findByUsername()</code>  方法（根据用户名查询数据）<br />
+<hr>
+<p><strong>例：用户注册</strong><br>
+ mapper 层： <code>UserMapper</code>  中定义 <code>insert()</code>  方法（插入用户数据）、 <code>findByUsername()</code>  方法（根据用户名查询数据）<br>
 service 层： <code>UserService</code>  中定义的一个业务逻辑（功能）为 <code>reg()</code> （用户注册）， <code>reg()</code>  在数据库层面的理解其实就是 <code>insert()</code> ，但是 <code>insert（）</code> 不涉及数据处理流程和逻辑</p>
 <p>reg () 的业务逻辑：先根据输入的用户名查询是否已存在用户数据（调用 <code>UserMapper</code>  的 <code>findByUsername()</code> ），如果不存在则插入用户数据（调用用 <code>UserMapper</code>  的 <code>insert()</code> ）, 如果存在则抛出用户已存在的异常。</p>
 <p>在 service 包中，先在 <code>IUserService接口</code> 中定义 <code>reg()</code>  的抽象方法，然后在 <code>service.impl</code> （implement：实现）包中的 <code>UserServiceImpl</code>  实现类中实现 <code>reg()</code>  方法</p>
-<hr />
+<hr>
 <p>总之：</p>
 <blockquote>
 <ol>
@@ -233,75 +238,111 @@ service 层： <code>UserService</code>  中定义的一个业务逻辑（功能
 </ol>
 </blockquote>
 <p><a href="%E5%BD%93%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B6%89%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%A0%E9%99%A4%E6%88%96%E4%BF%AE%E6%94%B9%E6%97%B6%EF%BC%8C%E6%96%B9%E6%B3%95%E4%B8%8A%E4%B8%80%E5%AE%9A%E8%A6%81%E6%B7%BB%E5%8A%A0%E6%B3%A8%E8%A7%A3@Transactional%EF%BC%8C%E5%90%A6%E5%88%99%E4%BC%9A%E6%89%A7%E8%A1%8C%E4%B8%8D%E6%88%90%E5%8A%9F%E3%80%82"></a></p>
-<h1 id="控制层"><a class="anchor" href="#控制层">#</a> 控制层</h1>
-<p><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tpY2luaW8vYXJ0aWNsZS9kZXRhaWxzLzExMDgwNjk3Nw==">controller 的注解 1</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYWhhbzExODYvYXJ0aWNsZS9kZXRhaWxzLzkwNjM0NzY0">controller 的注解 2</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3F1ZXN0aW9uLzQzNDY0MDYzNA==">controller 请求与响应</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjkxMjA3L2FydGljbGUvZGV0YWlscy8xMTA3ODk1Njg="> controller 请求与响应生动讲解</span><br />
-<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjkxMjA3L2FydGljbGUvZGV0YWlscy8xMTA3OTA0MTU/c3BtPTEwMDEuMjAxNC4zMDAxLjU1MDI="> controller 请求与响应生动讲解（续）</span></p>
-<p>Controller , 控制器，与  <code>前端和service层</code>  交互，<br />
+<h1 id="控制层"><a class="markdownIt-Anchor" href="#控制层">#</a> 控制层</h1>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/kicinio/article/details/110806977">controller 的注解 1</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/jiahao1186/article/details/90634764">controller 的注解 2</a><br>
+<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/434640634">controller 请求与响应</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43291207/article/details/110789568"> controller 请求与响应生动讲解</a><br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43291207/article/details/110790415?spm=1001.2014.3001.5502"> controller 请求与响应生动讲解（续）</a></p>
+<p>Controller , 控制器，与  <code>前端和service层</code>  交互，<br>
 把用户提交来的请求通过对 URL 的匹配，分配不同的接收器，再进行处理，然后向用户返回结果。</p>
 <p>从 HTTP 请求中获取信息，提取参数，并将其分发给不同的处理服务（service 层），根据实际需求调用不同的 service 定义的方法来处理不同业务，并向前端返回 service 层处理后的数据，他的重点就在于如何从 HTTP 请求中获得信息，提取参数，并分发给不同的处理服务。接收和响应请求，校验数据</p>
 <p>controller 负责管理 service，service 负责实施</p>
-<hr />
+<hr>
 <p><strong>例：用户注册</strong></p>
-<figure class="highlight java"><figcaption data-lang="java"></figcaption><table><tr><td data-num="1"></td><td><pre><span class="token annotation punctuation">@RestController</span></pre></td></tr><tr><td data-num="2"></td><td><pre><span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"users"</span><span class="token punctuation">)</span></pre></td></tr><tr><td data-num="3"></td><td><pre><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserController</span> <span class="token keyword">extends</span> <span class="token class-name">BaseController</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="4"></td><td><pre>    <span class="token annotation punctuation">@Autowired</span></pre></td></tr><tr><td data-num="5"></td><td><pre>    <span class="token keyword">private</span> <span class="token class-name">IUserService</span> userService<span class="token punctuation">;</span></pre></td></tr><tr><td data-num="6"></td><td><pre></pre></td></tr><tr><td data-num="7"></td><td><pre></pre></td></tr><tr><td data-num="8"></td><td><pre>    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"reg"</span><span class="token punctuation">)</span></pre></td></tr><tr><td data-num="9"></td><td><pre>    <span class="token keyword">public</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span> <span class="token function">reg</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="10"></td><td><pre>        <span class="token comment">// 调用业务对象执行注册</span></pre></td></tr><tr><td data-num="11"></td><td><pre>        userService<span class="token punctuation">.</span><span class="token function">reg</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="12"></td><td><pre>        <span class="token comment">// 返回</span></pre></td></tr><tr><td data-num="13"></td><td><pre>        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="14"></td><td><pre>    <span class="token punctuation">&#125;</span></pre></td></tr><tr><td data-num="15"></td><td><pre><span class="token comment">// 省略其他代码</span></pre></td></tr><tr><td data-num="16"></td><td><pre> <span class="token punctuation">&#125;</span></pre></td></tr></table></figure><p>在 UserController 中实例化 <code>IUserService</code>  对象 <code>userService</code></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@RestController</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"users"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UserController</span> <span class="token keyword">extends</span> <span class="token class-name">BaseController</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">IUserService</span> userService<span class="token punctuation">;</span>
+
+
+    <span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"reg"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span> <span class="token function">reg</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 调用业务对象执行注册</span>
+        userService<span class="token punctuation">.</span><span class="token function">reg</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 返回</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token comment">//省略其他代码</span>
+ <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 UserController 中实例化 <code>IUserService</code>  对象 <code>userService</code></p>
 <p><code>@RequestMapping(&quot;users&quot;)</code> 、 <code>@RequestMapping(&quot;reg&quot;)</code>  请求映射，将 http 请求路径映射到 Controller 方法上</p>
-<p>当用户在前端点击注册后，前端请求通过.../users/reg 的路径发送给后端的 UserController，执行 <code>@RequestMapping(&quot;reg&quot;)</code>  下的 <code>reg()</code>  方法，注意这里的 reg () 是 Controller 层的，不负责 “用户注册” 这个业务的实现，它会调用 Service 层真正实现 “用户注册” 业务逻辑的 <code>userService.reg()</code> ;<br />
+<p>当用户在前端点击注册后，前端请求通过…/users/reg 的路径发送给后端的 UserController，执行 <code>@RequestMapping(&quot;reg&quot;)</code>  下的 <code>reg()</code>  方法，注意这里的 reg () 是 Controller 层的，不负责 “用户注册” 这个业务的实现，它会调用 Service 层真正实现 “用户注册” 业务逻辑的 <code>userService.reg()</code> ;<br>
  然后 <code>userService.reg()</code>  调用 mapper 层的数据库操作方法 <code>findByUsername()</code>  和 <code>insert()</code> ，根据映射的 xml 文件通过 Mybatis 执行 sql 连接操作数据库，把数据写入数据库，完成该业务逻辑，但还需要返回响应结果</p>
 <blockquote>
-<p><code>.../users</code>  请求路径是映射到 <code>@RequestMapping(&quot;users&quot;)</code>  下面的 UserController 类；<br />
+<p><code>.../users</code>  请求路径是映射到 <code>@RequestMapping(&quot;users&quot;)</code>  下面的 UserController 类；<br>
  <code>.../users/reg</code>  请求路径映射到 <code>@RequestMapping(&quot;users&quot;)</code>  之下的 <code>@RequestMapping(&quot;reg&quot;)</code>  下面的 reg 方法</p>
 </blockquote>
-<hr />
-<figure class="highlight java"><figcaption data-lang="java"></figcaption><table><tr><td data-num="1"></td><td><pre>再看一下上面的</pre></td></tr><tr><td data-num="2"></td><td><pre><span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr></table></figure><p><code>JsonResult</code>  是自定义的响应结果类，统一返回结果<br />
+<hr>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">再看一下上面的
+<span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><code>JsonResult</code>  是自定义的响应结果类，统一返回结果<br>
 上面的 <code>200</code>  表示正常，即注册成功，如果成功执行了 reg 方法，则会创建一个 JsonResult 类的对象，其中 state（状态码）属性值设置为 200</p>
 <p>自定义的 JsonResult 类包含属性 state（状态码）、message（状态描述信息）、data（数据），这里注册只需要知道是否操作成功就只返回状态码，如查询等业务则会还需要返回数据等</p>
 <p>下面看一下前端代码，这个例子的前端用的是 Thymeleaf 模板引擎</p>
-<figure class="highlight javascript"><figcaption data-lang="javascript"></figcaption><table><tr><td data-num="1"></td><td><pre><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span></pre></td></tr><tr><td data-num="2"></td><td><pre>	<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btn-reg"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="3"></td><td><pre>		$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="4"></td><td><pre>			<span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">"/users/reg"</span><span class="token punctuation">,</span></pre></td></tr><tr><td data-num="5"></td><td><pre>			<span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span></pre></td></tr><tr><td data-num="6"></td><td><pre>			<span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#form-reg"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">serialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span></pre></td></tr><tr><td data-num="7"></td><td><pre>			<span class="token literal-property property">dataType</span><span class="token operator">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span></pre></td></tr><tr><td data-num="8"></td><td><pre>			<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">json</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="9"></td><td><pre>				<span class="token keyword">if</span> <span class="token punctuation">(</span>json<span class="token punctuation">.</span>state <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="10"></td><td><pre>					<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"注册成功！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="11"></td><td><pre>					<span class="token comment">// location.href = "login.html";</span></pre></td></tr><tr><td data-num="12"></td><td><pre>				<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span></pre></td></tr><tr><td data-num="13"></td><td><pre>					<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"注册失败！"</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="14"></td><td><pre>				<span class="token punctuation">&#125;</span></pre></td></tr><tr><td data-num="15"></td><td><pre>			<span class="token punctuation">&#125;</span></pre></td></tr><tr><td data-num="16"></td><td><pre>		<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="17"></td><td><pre>	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span></pre></td></tr><tr><td data-num="18"></td><td><pre><span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span></pre></td></tr></table></figure><p>第四行的 url 即为上面提到前端的请求路径，该请求为 post 请求、提交数据，数据来源于 id 等于第六行 <code>&quot;#form-reg&quot;</code>  的表单（form），内容为用户注册所需要的信息，与 User 类属性一致，然后转化为 json 对象传给 Controller, 该对象（实参）在 Controller 中为 User 类的对象 user（形参）</p>
-<figure class="highlight java"><figcaption data-lang="java"></figcaption><table><tr><td data-num="1"></td><td><pre><span class="token keyword">public</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span> <span class="token function">reg</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span></pre></td></tr></table></figure><p>后端的 Controller 接收该请求，当处理完请求后返回结果给前端<br />
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">&lt;</span>script type<span class="token operator">=</span><span class="token string">"text/javascript"</span><span class="token operator">></span>
+	<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#btn-reg"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+		$<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+			<span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">"/users/reg"</span><span class="token punctuation">,</span>
+			<span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
+			<span class="token literal-property property">data</span><span class="token operator">:</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#form-reg"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">serialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+			<span class="token literal-property property">dataType</span><span class="token operator">:</span> <span class="token string">"json"</span><span class="token punctuation">,</span>
+			<span class="token function-variable function">success</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">json</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+				<span class="token keyword">if</span> <span class="token punctuation">(</span>json<span class="token punctuation">.</span>state <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+					<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"注册成功！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+					<span class="token comment">// location.href = "login.html";</span>
+				<span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+					<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"注册失败！"</span> <span class="token operator">+</span> json<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">&#125;</span>
+			<span class="token punctuation">&#125;</span>
+		<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>第四行的 url 即为上面提到前端的请求路径，该请求为 post 请求、提交数据，数据来源于 id 等于第六行 <code>&quot;#form-reg&quot;</code>  的表单（form），内容为用户注册所需要的信息，与 User 类属性一致，然后转化为 json 对象传给 Controller, 该对象（实参）在 Controller 中为 User 类的对象 user（形参）</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">JsonResult</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Void</span><span class="token punctuation">></span></span> <span class="token function">reg</span><span class="token punctuation">(</span><span class="token class-name">User</span> user<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>后端的 Controller 接收该请求，当处理完请求后返回结果给前端<br>
 如上 <code>success: function(json)</code>  表示请求成功并返回信息（响应请求），这里括号里的 <code>json</code>  就是后端 Controller 返回的结果，即一个 JsonResult 类的对象（实参），其 state 属性值为 200，在前端中这个对象被命名为 json（形参），那么 Controller 返回结果成功则 json.state==200.</p>
 <p>以上即为前后端交互的流程，Controller 负责接收请求和响应请求，调用 Service 处理业务，但自身不涉及业务逻辑</p>
 <p>总之：</p>
 <blockquote>
 <ol>
 <li>考虑要实现一个业务逻辑，用户在前端界面操作，该操作会从前端向后端传递什么，后端处理完该业务逻辑需要返回给前端什么</li>
-<li>设计请求与响应，例：<br />
-请求路径：/users/reg<br />
- 请求参数：User user<br />
- 请求类型：POST<br />
- 响应结果：JsonResult&lt;Void&gt;</li>
+<li>设计请求与响应，例：<br>
+请求路径：/users/reg<br>
+ 请求参数：User user<br>
+ 请求类型：POST<br>
+ 响应结果：JsonResult<Void></li>
 <li>在 Controller 包下编写控制器类： <code>XxxxController</code> ，在类中实例化需要调用的 service 对象：xxxxService</li>
 <li><code>XxxxController</code>  中编写要实现业务的控制方法，包括请求参数与响应结果（返回值），调用 xxxxService 对象的 xxx () 方法</li>
 <li>使用 <code>@RequestMapping</code>  等注解映射控制方法的请求路径，实现前后端的交互</li>
 </ol>
 </blockquote>
-<h1 id="总结"><a class="anchor" href="#总结">#</a> 总结</h1>
-<p>用户操作前端界面，需要实现某种业务 -- 前端发送请求给后端 controller--controller 接收请求，调用 service 处理该业务 --service 处理业务调用 mapper 的数据库操作方法 --mapper 方法与 mapper.xml 存在映射关系；--Mybatis 执行 sql--service 处理业完毕 --controller 返回响应结果 -- 前端返回反馈给用户</p>
-<pre><code>用户操作前端界面，需要实现某种业务（&lt;?&gt; 操作内容）&#123;
-    //前端api接口
+<h1 id="总结"><a class="markdownIt-Anchor" href="#总结">#</a> 总结</h1>
+<p>用户操作前端界面，需要实现某种业务–前端发送请求给后端 controller–controller 接收请求，调用 service 处理该业务 --service 处理业务调用 mapper 的数据库操作方法 --mapper 方法与 mapper.xml 存在映射关系；–Mybatis 执行 sql–service 处理业完毕–controller 返回响应结果–前端返回反馈给用户</p>
+<pre class="line-numbers language-none"><code class="language-none">用户操作前端界面，需要实现某种业务（&lt;?&gt; 操作内容）&#123;
+    &#x2F;&#x2F;前端api接口
     &lt;操作反馈&gt; 前端发送请求给后端controller ()&#123;
         &lt;?&gt; 请求路径
         &lt;?&gt; 请求参数
         &lt;?&gt; 请求类型
         &lt;?&gt; 响应结果
-        //controller层
+        &#x2F;&#x2F;controller层
         &lt;响应结果&gt; controller接收请求，调用service处理该业务 (&lt;?&gt; 请求参数)&#123;
-            //service层
+            &#x2F;&#x2F;service层
             service处理业务时，调用mapper的数据库操作方法 (&lt;?&gt; 请求参数)&#123;
-                //mapper层
+                &#x2F;&#x2F;mapper层
                 mapper方法与mapper.xml存在映射关系；
-                //resource文件夹下的mapper的xml文件
+                &#x2F;&#x2F;resource文件夹下的mapper的xml文件
                 执行sql；
             &#125;
         &#125;
     &#125; 
 &#125;
-
-</code></pre>
-<p>考虑的时候可以是前端 ---controller---service---dao---database ；<br />
-写代码的时候则 database---dao---service---controller--- 前端</p>
-<p><strong>总而言之，言而总之</strong><br />
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>考虑的时候可以是前端 —controller—service—dao—database ；<br>
+写代码的时候则 database—dao—service—controller— 前端</p>
+<p><strong>总而言之，言而总之</strong><br>
 在 mapper 层</p>
 <blockquote>
 <ol>
@@ -322,263 +363,14 @@ service 层： <code>UserService</code>  中定义的一个业务逻辑（功能
 <blockquote>
 <ol>
 <li>考虑要实现一个业务逻辑，用户在前端界面操作，该操作会从前端向后端传递什么，后端处理完该业务逻辑需要返回给前端什么</li>
-<li>设计请求与响应，例：<br />
-请求路径：/users/reg<br />
- 请求参数：User user<br />
- 请求类型：POST<br />
- 响应结果：JsonResult&lt;Void&gt;</li>
+<li>设计请求与响应，例：<br>
+请求路径：/users/reg<br>
+ 请求参数：User user<br>
+ 请求类型：POST<br>
+ 响应结果：JsonResult<Void></li>
 <li>在 Controller 包下编写控制器类： <code>XxxxController</code> ，在类中实例化需要调用的 service 对象：xxxxService</li>
 <li><code>XxxxController</code>  中编写要实现业务的控制方法，包括请求参数与响应结果（返回值），调用 xxxxService 对象的 xxx () 方法</li>
 <li>使用 <code>@RequestMapping</code>  等注解映射控制方法的请求路径，实现前后端的交互</li>
 </ol>
 </blockquote>
-
-  </div>
-
-   <footer>
-
-    <div class="meta">
-  <span class="item">
-    <span class="icon">
-      <i class="ic i-calendar-check"></i>
-    </span>
-    <span class="text">Edited on</span>
-    <time title="Modified: 2022-12-02 00:15:14" itemprop="dateModified" datetime="2022-12-02T00:15:14+08:00">2022-12-02</time>
-  </span>
-</div>
-
-      
-<div class="reward">
-  <button><i class="ic i-heartbeat"></i> Donate</button>
-  <p>Give me a cup of [coffee]~(￣▽￣)~*</p>
-  <div id="qr">
-      
-      <div>
-        <img data-src="/images/wechatpay.png" alt="John Doe WeChat Pay">
-        <p>WeChat Pay</p>
-      </div>
-      
-      <div>
-        <img data-src="/images/alipay.png" alt="John Doe Alipay">
-        <p>Alipay</p>
-      </div>
-      
-      <div>
-        <img data-src="/images/paypal.png" alt="John Doe PayPal">
-        <p>PayPal</p>
-      </div>
-  </div>
-</div>
-
-      
-
-<div id="copyright">
-<ul>
-  <li class="author">
-    <strong>Post author:  </strong>John Doe <i class="ic i-at"><em>@</em></i>Hexo
-  </li>
-  <li class="link">
-    <strong>Post link: </strong>
-    <a href="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/" title="零基础快速上手spring boot">http://example.com/2022/12/01/零基础快速上手spring-boot/</a>
-  </li>
-  <li class="license">
-    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> unless stating additionally.
-  </li>
-</ul>
-</div>
-
-  </footer>
-
-</article>
-
-  </div>
-  
-
-<div class="post-nav">
-    <div class="item left">
-      
-
-  <a href="/2022/11/28/hello-world/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1gipevgoki5j20zk0m84qp.jpg" title="Hello World">
-  <span class="type">Previous Post</span>
-  <span class="category"><i class="ic i-flag"></i> </span>
-  <h3>Hello World</h3>
-  </a>
-
-    </div>
-    <div class="item right">
-      
-
-  <a href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;tva4.sinaimg.cn&#x2F;mw690&#x2F;6833939bly1giclg5ms2rj20zk0m8u0x.jpg" title="vue初学笔记-单文件组件">
-  <span class="type">Next Post</span>
-  <span class="category"><i class="ic i-flag"></i> </span>
-  <h3>vue初学笔记-单文件组件</h3>
-  </a>
-
-    </div>
-</div>
-
-  
-  <div class="wrap" id="comments"></div>
-
-
-        </div>
-        <div id="sidebar">
-          
-
-<div class="inner">
-
-  <div class="panels">
-    <div class="inner">
-      <div class="contents panel pjax" data-title="Contents">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E8%81%8A%E5%90%90%E6%A7%BD"><span class="toc-number">1.1.</span> <span class="toc-text"> 无聊吐槽：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text"> 参考项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E5%85%B3%E7%B3%BB"><span class="toc-number">1.3.</span> <span class="toc-text"> 三层关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text"> 数据库（表）设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%B1%82%E7%BC%96%E5%86%99%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text"> 实体层（编写实体类）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%B1%82-java%E5%AF%B9%E8%B1%A1%E4%B8%8Esql%E6%98%A0%E5%B0%84mapper%E6%8E%A5%E5%8F%A3%E4%B8%8Exml%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6%E7%BB%91%E5%AE%9A"><span class="toc-number">4.</span> <span class="toc-text"> 持久层 （java 对象与 sql 映射）(Mapper 接口与 xml 映射文件绑定)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E5%B1%82"><span class="toc-number">5.</span> <span class="toc-text"> 业务逻辑层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B1%82"><span class="toc-number">6.</span> <span class="toc-text"> 控制层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text"> 总结</span></a></li></ol>
-      </div>
-      <div class="related panel pjax" data-title="Related">
-      </div>
-      <div class="overview panel" data-title="Overview">
-        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="image" itemprop="image" alt="John Doe"
-      data-src="/images/avatar.jpg">
-  <p class="name" itemprop="name">John Doe</p>
-  <div class="description" itemprop="description"></div>
-</div>
-
-<nav class="state">
-    <div class="item posts">
-      <a href="/archives/">
-        <span class="count">3</span>
-        <span class="name">posts</span>
-      </a>
-    </div>
-</nav>
-
-<div class="social">
-</div>
-
-<ul class="menu">
-  
-    
-  <li class="item">
-    <a href="/" rel="section"><i class="ic i-home"></i>Home</a>
-  </li>
-
-
-</ul>
-
-      </div>
-    </div>
-  </div>
-
-  <ul id="quick">
-    <li class="prev pjax">
-        <a href="/2022/11/28/hello-world/" rel="prev" title="Previous Post"><i class="ic i-chevron-left"></i></a>
-    </li>
-    <li class="up"><i class="ic i-arrow-up"></i></li>
-    <li class="down"><i class="ic i-arrow-down"></i></li>
-    <li class="next pjax">
-        <a href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" rel="next" title="Next Post"><i class="ic i-chevron-right"></i></a>
-    </li>
-    <li class="percent"></li>
-  </ul>
-</div>
-
-
-        </div>
-        <div class="dimmer"></div>
-      </div>
-    </main>
-    <footer id="footer">
-      <div class="inner">
-        <div class="widgets">
-          
-<div class="rpost pjax">
-  <h2>Random Posts</h2>
-  <ul>
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2022/11/28/hello-world/" title="Hello World">Hello World</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/" title="零基础快速上手spring boot">零基础快速上手spring boot</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-</div>
-
-    <span><a href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" title="vue初学笔记-单文件组件">vue初学笔记-单文件组件</a></span>
-  </li>
-
-  </ul>
-</div>
-<div>
-  <h2>Recent Comments</h2>
-  <ul class="leancloud-recent-comment"></ul>
-</div>
-
-        </div>
-        <div class="status">
-  <div class="copyright">
-    
-    &copy; 2010 – 
-    <span itemprop="copyrightYear">2022</span>
-    <span class="with-love">
-      <i class="ic i-sakura rotate"></i>
-    </span>
-    <span class="author" itemprop="copyrightHolder">John Doe @ Yume Shoka</span>
-  </div>
-  <div class="powered-by">
-    Powered by <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
-  </div>
-</div>
-
-      </div>
-    </footer>
-  </div>
-<script data-config type="text/javascript">
-  var LOCAL = {
-    path: '2022/12/01/零基础快速上手spring-boot/',
-    favicon: {
-      show: "（●´3｀●）Goooood",
-      hide: "(´Д｀)Booooom"
-    },
-    search : {
-      placeholder: "Search for Posts",
-      empty: "We didn't find any results for the search: ${query}",
-      stats: "${hits} results found in ${time} ms"
-    },
-    valine: true,fancybox: true,
-    copyright: 'Copied to clipboard successfully! <br> All articles in this blog are licensed under <i class="ic i-creative-commons"></i>BY-NC-SA.',
-    ignores : [
-      function(uri) {
-        return uri.includes('#');
-      },
-      function(uri) {
-        return new RegExp(LOCAL.path+"$").test(uri);
-      }
-    ]
-  };
-</script>
-
-<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
-
-<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
-
-<script src="/js/app.js?v=0.2.5"></script>
-
-
-
-
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/">http://example.com/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" title="vue初学笔记-单文件组件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">vue初学笔记-单文件组件</div></div></a></div><div class="next-post pull-right"><a href="/2022/11/28/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E8%81%8A%E5%90%90%E6%A7%BD"><span class="toc-number">1.1.</span> <span class="toc-text"> 无聊吐槽：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text"> 参考项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E5%85%B3%E7%B3%BB"><span class="toc-number">1.3.</span> <span class="toc-text"> 三层关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text"> 数据库（表）设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%B1%82%E7%BC%96%E5%86%99%E5%AE%9E%E4%BD%93%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text"> 实体层（编写实体类）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%81%E4%B9%85%E5%B1%82-java%E5%AF%B9%E8%B1%A1%E4%B8%8Esql%E6%98%A0%E5%B0%84mapper%E6%8E%A5%E5%8F%A3%E4%B8%8Exml%E6%98%A0%E5%B0%84%E6%96%87%E4%BB%B6%E7%BB%91%E5%AE%9A"><span class="toc-number">4.</span> <span class="toc-text"> 持久层 （java 对象与 sql 映射）(Mapper 接口与 xml 映射文件绑定)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E5%B1%82"><span class="toc-number">5.</span> <span class="toc-text"> 业务逻辑层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A7%E5%88%B6%E5%B1%82"><span class="toc-number">6.</span> <span class="toc-text"> 控制层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text"> 总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" title="vue初学笔记-单文件组件">vue初学笔记-单文件组件</a><time datetime="2022-12-18T16:26:07.000Z" title="Created 2022-12-19 00:26:07">2022-12-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/12/01/%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8Bspring-boot/" title="零基础快速上手spring boot">零基础快速上手spring boot</a><time datetime="2022-12-01T14:26:10.000Z" title="Created 2022-12-01 22:26:10">2022-12-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/28/hello-world/" title="Hello World">Hello World</a><time datetime="2022-11-28T15:48:47.717Z" title="Created 2022-11-28 23:48:47">2022-11-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
