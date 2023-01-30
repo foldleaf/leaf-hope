@@ -8,7 +8,7 @@
       <link href="/2023/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/"/>
       <url>/2023/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/</url>
       
-        <content type="html"><![CDATA[<p>经过多方面的尝试，把 hexo、vuepress、hugo、docusaurus 等静态博客都搭了一遍，hugo 是用 go 模板语法来写的，但是有点问题就是有些主题的依赖下载有问题，能用的主题又感觉不好看，docusaurus 除了默认主题外唯一找到个不错的主题但似乎又因为 npm 依赖问题而放弃…… 最终方案是 <code>hexo-butterfly</code> + <code>vuepress-theme-hope</code></p><p>使用 hexo 作为主博客，在 butterfly、sakura、shoka 中最后选择了 butterfly 主题，主要原因是其生态比较好，diy 教程比较齐全，花样多，缺点是系列文章不太方便查看</p><p>使用 vuepress 作为副博客 / 文档站，最后在默认、reco、hope、gungnir、aurora 中选择了 hope 主题，主要原因是它的侧边栏能够根据文件层级自动生成树状目录，方便查看，缺点是不够花哨</p><p>如果你对本博客花哨的界面有所不适，可以移步到<a href="https//foldleaf.github.io/leaf-hope">我的文档站</a></p>]]></content>
+        <content type="html"><![CDATA[<p>经过多方面的尝试，把 hexo、vuepress、hugo、docusaurus 等静态博客都搭了一遍，hugo 是用 go 模板语法来写的，但是有点问题就是有些主题的依赖下载有问题，能用的主题又感觉不好看，docusaurus 除了默认主题外唯一找到个不错的主题但似乎又因为 npm 依赖问题而放弃…… 最终方案是 <code>hexo-butterfly</code> + <code>vuepress-theme-hope</code></p><p>使用 hexo 作为主博客，在 butterfly、sakura、shoka 中最后选择了 butterfly 主题，主要原因是其生态比较好，diy 教程比较齐全，花样多，缺点是系列文章不太方便查看</p><p>使用 vuepress 作为副博客 / 文档站，最后在默认、reco、hope、gungnir、aurora 中选择了 hope 主题，主要原因是它的侧边栏能够根据文件层级自动生成树状目录，方便查看，缺点是不够花哨</p><p>如果你对本博客花哨的界面有所不适，可以移步到 <code>我的文档站</code>  (https//foldleaf.github.io/leaf-hope)<br> hexo 这链接似乎有点问题，可以访问 <code>友链</code> 中 <code>我的文档站</code></p>]]></content>
       
       
       <categories>
