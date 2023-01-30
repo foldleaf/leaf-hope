@@ -1,0 +1,1 @@
+import{_ as a,V as t,W as n,X as e,Y as o}from"./framework-41b2e4a5.js";const c={},r=e("h1",{id:"golang目录",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#golang目录","aria-hidden":"true"},"#"),o(" golang目录")],-1),s=[r];function _(d,i){return t(),n("div",null,s)}const h=a(c,[["render",_],["__file","index.html.vue"]]);export{h as default};

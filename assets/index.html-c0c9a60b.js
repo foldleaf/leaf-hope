@@ -1,0 +1,1 @@
+import{_ as t,V as a,W as c,X as e,Y as n}from"./framework-41b2e4a5.js";const r={},s=e("h1",{id:"vue目录",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#vue目录","aria-hidden":"true"},"#"),n(" Vue目录")],-1),o=[s];function _(d,i){return a(),c("div",null,o)}const l=t(r,[["render",_],["__file","index.html.vue"]]);export{l as default};
