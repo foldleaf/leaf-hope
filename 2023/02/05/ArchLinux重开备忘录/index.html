@@ -1,0 +1,464 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>ArchLinux重开备忘录 | leaf's blog</title><meta name="author" content="fold leaf"><meta name="copyright" content="fold leaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="万一哪天挂了，方便自己快速重开 时常记得： sudo pacman -Syu # 可能用到的链接 Arch wiki https:&#x2F;&#x2F;wiki.archlinux.org&#x2F; vmware 虚拟机安装 archlinux https:&#x2F;&#x2F;blog.csdn.net&#x2F;takashi77&#x2F;article&#x2F;details&#x2F;118927109 重启后网络 ping 不通 网络问题解决方案  https:&#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArchLinux重开备忘录">
+<meta property="og:url" content="https://foldleaf.github.io/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/index.html">
+<meta property="og:site_name" content="leaf&#39;s blog">
+<meta property="og:description" content="万一哪天挂了，方便自己快速重开 时常记得： sudo pacman -Syu # 可能用到的链接 Arch wiki https:&#x2F;&#x2F;wiki.archlinux.org&#x2F; vmware 虚拟机安装 archlinux https:&#x2F;&#x2F;blog.csdn.net&#x2F;takashi77&#x2F;article&#x2F;details&#x2F;118927109 重启后网络 ping 不通 网络问题解决方案  https:&#x2F;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foldleaf.github.io/img/rabbit/041.jpg">
+<meta property="article:published_time" content="2023-02-05T13:39:03.000Z">
+<meta property="article:modified_time" content="2023-02-05T14:18:44.957Z">
+<meta property="article:author" content="fold leaf">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foldleaf.github.io/img/rabbit/041.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foldleaf.github.io/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ArchLinux重开备忘录',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-05 22:18:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/chino_avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/rabbit/041.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="leaf's blog"><img class="site-icon" src="/img/chiya_avatar.png"/><span class="site-name">leaf's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ArchLinux重开备忘录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-05T13:39:03.000Z" title="发表于 2023-02-05 21:39:03">2023-02-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-05T14:18:44.957Z" title="更新于 2023-02-05 22:18:44">2023-02-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ArchLinux重开备忘录"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>万一哪天挂了，方便自己快速重开<br>
+时常记得： <code>sudo pacman -Syu</code></p>
+<h2 id="可能用到的链接"><a class="markdownIt-Anchor" href="#可能用到的链接">#</a> 可能用到的链接</h2>
+<p>Arch wiki<br>
+<a target="_blank" rel="noopener" href="https://wiki.archlinux.org/">https://wiki.archlinux.org/</a></p>
+<p>vmware 虚拟机安装 archlinux<br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/takashi77/article/details/118927109">https://blog.csdn.net/takashi77/article/details/118927109</a></p>
+<p>重启后网络 ping 不通<br>
+网络问题解决方案<br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/kaluosifa/article/details/105303484"> https://blog.csdn.net/kaluosifa/article/details/105303484</a></p>
+<p>安装 plasma 桌面环境 虚拟机安装不需要配置显卡驱动，其实这个应该是最全最好用的，不过我是装好了 Arch 后要装 kde 出错后才找到这个不错的完全体教程<br>
+<a target="_blank" rel="noopener" href="https://arch.icekylin.online/rookie/desktop-env-and-app.html#_4-%E5%AE%89%E8%A3%85-kde-plasma-%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"> https://arch.icekylin.online/rookie/desktop-env-and-app.html#_4 - 安装 - kde-plasma - 桌面环境</a><br>
+安装可能用到的命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> arch.icekylin.online
+timedatectl set-ntp <span class="token boolean">true</span>
+timedatectl status
+<span class="token function">vim</span> /etc/pacman.d/mirrorlist
+<span class="token comment"># 分区和挂载系列命令</span>
+pacstrap /mnt base base-devel linux linux-firmware
+pacstrap /mnt dhcpcd iwd <span class="token function">vim</span> <span class="token function">sudo</span> bash-completion
+genfstab <span class="token parameter variable">-U</span> /mnt <span class="token operator">></span> /mnt/etc/fstab
+<span class="token function">cat</span> /mnt/etc/fstab
+arch-chroot /mnt
+<span class="token function">vim</span> /etc/hostname
+<span class="token function">vim</span> /etc/hosts
+<span class="token function">ln</span> <span class="token parameter variable">-sf</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+hwclock <span class="token parameter variable">--systohc</span>
+locale-gen
+<span class="token builtin class-name">echo</span> <span class="token string">'LANG=en_US.UTF-8'</span>  <span class="token operator">></span> /etc/locale.conf
+<span class="token function">passwd</span> root
+pacman <span class="token parameter variable">-S</span> intel-ucode
+pacman <span class="token parameter variable">-S</span> grub efibootmgr
+grub-install <span class="token parameter variable">--target</span><span class="token operator">=</span>x86_64-efi --efi-directory<span class="token operator">=</span>/efi --bootloader-id<span class="token operator">=</span>ARCH
+<span class="token function">vim</span> /etc/default/grub
+<span class="token function">grub-mkconfig</span> <span class="token parameter variable">-o</span> /boot/grub/grub.cfg
+<span class="token builtin class-name">exit</span>
+<span class="token function">umount</span> <span class="token parameter variable">-R</span> /mnt
+<span class="token function">reboot</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="安装准备"><a class="markdownIt-Anchor" href="#安装准备">#</a> 安装准备</h2>
+<h3 id="下载软件"><a class="markdownIt-Anchor" href="#下载软件">#</a> 下载软件</h3>
+<p>前往官网 https://archlinux.org/download/ 下载 Arch 镜像，往下划选择一个国内的镜像源，我使用的是 aliyun，选择 iso 映像文件下载</p>
+<p>下载虚拟机 VMware 或 visual box 都可以，我用的是 VMware</p>
+<h3 id="创建虚拟机"><a class="markdownIt-Anchor" href="#创建虚拟机">#</a> 创建虚拟机</h3>
+<p>创建虚拟机：</p>
+<ul>
+<li>典型配置</li>
+<li>安装程序光盘映像文件 - 选择刚刚下载好的 iso 映像文件</li>
+<li>操作系统选择 Linux - 版本选择其他 Linux 内核 64 位</li>
+<li>设置虚拟机名称和位置</li>
+<li>分配内存 我是 16g 硬盘 2g 内存 后面装 kde 后感觉有点小了？</li>
+<li>其他默认，之后可以在虚拟机 - 设置里更改</li>
+</ul>
+<p>创建完成后请勿直接开启虚拟机，因为会默认使用 bios 方式启动，我们这里要改用 efi 方式启动</p>
+<h2 id="开始安装"><a class="markdownIt-Anchor" href="#开始安装">#</a> 开始安装</h2>
+<h3 id="开启虚拟机"><a class="markdownIt-Anchor" href="#开启虚拟机">#</a> 开启虚拟机</h3>
+<p>更改为 UEFI 引导：虚拟机 - 设置 - 选项 - 高级 - 固件类型，将 BIOS 选项改为 UEFI，确定。因为我们之后的分区类型和引导程序都是用 EFI 的<br>
+开启虚拟机，第一个选项 enter<br>
+ 测试网络，开通则有数据显示，安装镜像时应该已经预配置了网络</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> www.bilibili.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="时间"><a class="markdownIt-Anchor" href="#时间">#</a> 时间</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 通过 npt 校准时间</span>
+timedatectl set-ntp <span class="token boolean">true</span>
+<span class="token comment"># 查看时间</span>
+timedatectl status<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果与实际时间相差 8 小时，那是因为我们用的东八区时间与 UTC 标准时间相差 8 小时：<br>
+设置时区为上海，是安装完后才设置的</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ln</span> <span class="token parameter variable">-sf</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="磁盘分区"><a class="markdownIt-Anchor" href="#磁盘分区">#</a> 磁盘分区</h3>
+<p>lsblk 查看磁盘分区情况，未分区时磁盘 sda 16G</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入磁盘分区系统</span>
+<span class="token function">cfdisk</span> /dev/sda<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>然后选择 gpt 方式进入分区，上下键选择分区、左右键选择下方的操作命令，回车执行操作</p>
+<ul>
+<li>new 新建分区然后输入分区大小，即可将当前磁盘划分出一块分区</li>
+<li>type 分区类型</li>
+<li>write 写入磁盘，如果没有 write 直接 quit 则分区操作不会生效</li>
+<li>delete 删除分区</li>
+<li>quit 退出分区操作</li>
+</ul>
+<p>分区 sd1：new - 输入大小（参考：512M）- type - EFI System<br>
+ 分区 sd2：new - 输入大小（参考：12G）- type - Linux root (x86-64)<br>
+ 分区 sd3：输入大小（参考：剩下的 3.5G）- type - Linux swap</p>
+<p>确定完成分区后 write - 最后 quit<br>
+ 使用 lsblk 查看分区后的磁盘</p>
+<h3 id="初始化分区"><a class="markdownIt-Anchor" href="#初始化分区">#</a> 初始化分区</h3>
+<p>格式化分区</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mkfs.fat <span class="token parameter variable">-F32</span> /dev/sda1
+mkfs.ext4 /dev/sda2
+<span class="token function">mkswap</span> /dev/sda3 <span class="token parameter variable">-L</span> Swap
+<span class="token function">swapon</span> /dev/sda3<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>挂载分区</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mount</span> /dev/sda2 /mnt
+<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /mnt/boot/EFI
+<span class="token function">mount</span> /dev/sda1 /mnt/boot/EFI<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>使用 vim 打开下载镜像列表</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> /etc/pacman.d/mirrorlist<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在里面列表第一行添加中国境内的源，这里使用 aliyun</p>
+<pre class="line-numbers language-vim" data-language="vim"><code class="language-vim">Server <span class="token operator">=</span> http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token operator">.</span>aliyun<span class="token operator">.</span><span class="token builtin">com</span><span class="token operator">/</span>archlinux<span class="token operator">/</span>$repo<span class="token operator">/</span>os<span class="token operator">/</span>$arch<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<hr>
+<p>在本文中你会用到的 vim 操作</p>
+<ul>
+<li>按  <code>i</code>  进入插入模式，在插入模式下才可以对文件进行修改</li>
+<li>按  <code>esc</code>  进入命令模式，可以多按几次  <code>esc</code>  以确保你处于命令模式，在命令模式下不能对文件进行修改</li>
+<li>在命令模式下，可以输入一些命令，在本文中你会用到的命令如下
+<ul>
+<li><code>:/</code>  为查找命令，后面家上你要查找的文本，vim 会跳转到匹配的那一行，按  <code>N</code>  查找下一个</li>
+<li><code>:w</code>  保存修改</li>
+<li><code>:wq</code>  保存修改并退出 vim</li>
+<li><code>:q!</code>  强制退出</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="系统安装"><a class="markdownIt-Anchor" href="#系统安装">#</a> 系统安装</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 这是为/mnt下安装一些环境用于待会创建用户所使用的，包括一些基本环境以及网络相关的dhcpcd和net-tools</span>
+pacstrap <span class="token parameter variable">-i</span> /mnt base base-devel linux <span class="token function">vim</span> dhcpcd net-tools
+<span class="token comment"># 生成 fstab 文件 (用 -U 或 -L 选项设置UUID 或卷标)：</span>
+genfstab <span class="token parameter variable">-U</span> /mnt <span class="token operator">>></span> /mnt/etc/fstab
+<span class="token comment"># 查看是否生成了磁盘分区</span>
+<span class="token function">cat</span> /mnt/etc/fstab
+<span class="token comment"># 切换用户,原来 root是红色，切换成功后变为灰色</span>
+arch-chroot /mnt
+<span class="token comment"># 创建初始的ramdisk环境</span>
+mkinitcpio <span class="token parameter variable">-p</span> linux<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="locale地区和语言配置"><a class="markdownIt-Anchor" href="#locale地区和语言配置">#</a> locale 地区和语言配置</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 用 vim 打开locale配置文件</span>
+<span class="token function">vim</span> /etc/locale.gen<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>查找以下 3 项，去掉前面的 # 号<br>
+ vim 命令模式输入  <code>:/en_US.UTF-8 UTF-8</code>   查找</p>
+<pre class="line-numbers language-vim" data-language="vim"><code class="language-vim">en_US<span class="token operator">.</span>UTF<span class="token operator">-</span><span class="token number">8</span> UTF<span class="token operator">-</span><span class="token number">8</span>
+zh_CN<span class="token operator">.</span>UTF<span class="token operator">-</span><span class="token number">8</span> UTF<span class="token operator">-</span><span class="token number">8</span>
+zh_TW<span class="token operator">.</span>UTF<span class="token operator">-</span><span class="token number">8</span> UTF<span class="token operator">-</span><span class="token number">8</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 生成Locale信息</span>
+locale-gen
+<span class="token comment"># 列出所有启用的Locale</span>
+locale <span class="token parameter variable">-a</span>
+<span class="token comment"># 创建locale.conf文件，并提交所要使用的本地化选项</span>
+<span class="token comment"># 不推荐此时设置任何中文locale，这样做可能会导致tty显示乱码</span>
+<span class="token builtin class-name">echo</span> <span class="token assign-left variable"><span class="token environment constant">LANG</span></span><span class="token operator">=</span>en_US.UTF-8 <span class="token operator">></span> /etc/locale.conf
+<span class="token comment"># 显示当前正在使用的Locale和相关的环境变量</span>
+locale<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="设置主机名"><a class="markdownIt-Anchor" href="#设置主机名">#</a> 设置主机名</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建 /etc/hostname 文件并将主机名写入文件,比如主机名为 arch</span>
+<span class="token builtin class-name">echo</span> arch <span class="token operator">></span> /etc/hostname
+<span class="token comment"># 然后用 vim打开 /etc/hosts 配置</span>
+<span class="token function">vim</span> /etc/hosts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>写入以下内容，保存并退出</p>
+<pre class="line-numbers language-vim" data-language="vim"><code class="language-vim"><span class="token number">127.0</span><span class="token operator">.</span><span class="token number">0.1</span>    localhost<span class="token operator">.</span>localdomain    localhost
+<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">1</span>          localhost<span class="token operator">.</span>localdomain    localhost
+<span class="token number">127.0</span><span class="token operator">.</span><span class="token number">1.1</span>    arch<span class="token operator">.</span>localdomain    arch <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="网络配置"><a class="markdownIt-Anchor" href="#网络配置">#</a> 网络配置</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman <span class="token parameter variable">-S</span> dhcpcd
+systemctl <span class="token builtin class-name">enable</span> dhcpcd.service
+
+使用无线网络的话，则需安装以下几个软件包（未验证）
+pacman <span class="token parameter variable">-S</span> iw wpa_supplicant dialog	（有线网络忽略这行）
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>另一个教程里无线网络的配置<br>
+<a target="_blank" rel="noopener" href="https://arch.icekylin.online/rookie/basic-install.html#%E8%8B%A5%E4%BD%BF%E7%94%A8%E6%97%A0%E7%BA%BF%E8%BF%9E%E6%8E%A5"> https://arch.icekylin.online/rookie/basic-install.html# 若使用无线连接</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">iwctl <span class="token comment"># 进入交互式命令行</span>
+device list <span class="token comment"># 列出无线网卡设备名，比如无线网卡看到叫 wlan0</span>
+station wlan0 scan <span class="token comment"># 扫描网络</span>
+station wlan0 get-networks <span class="token comment"># 列出所有 wifi 网络</span>
+station wlan0 connect wifi-name <span class="token comment"># 进行连接，注意这里无法输入中文。回车后输入密码即可</span>
+<span class="token builtin class-name">exit</span> <span class="token comment"># 连接成功后退出</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="root用户密码及创建新用户"><a class="markdownIt-Anchor" href="#root用户密码及创建新用户">#</a> root 用户密码及创建新用户</h3>
+<p>设置 root 密码</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 输入时密码会隐藏，你不会看到你输入的任何东西，这是正常的。确定密码输入完后回车</span>
+<span class="token function">passwd</span>
+<span class="token comment"># 二次确认密码，密码同样会隐藏</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>root 用户拥有系统的所有操作权限，这样对系统的操作非常不安全，所以需要新建一个普通用户，让其对系统的操作受到一定限制，后面要用的 kde 也只能由非 root 用户使用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 创建新用户，比如用户名为free</span>
+<span class="token function">useradd</span> <span class="token parameter variable">-m</span> <span class="token parameter variable">-G</span> wheel <span class="token parameter variable">-s</span> /bin/bash <span class="token function">free</span>
+<span class="token comment"># 设置用户密码</span>
+<span class="token function">passwd</span> <span class="token function">free</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<blockquote>
+<p>-m：创建用户主目录（/home/[用户名]）<br>
+-G：用户要加入的附加组列表；此处将用户加到 wheel 组中，之后可以给这个组执行 sudo 命令的权限<br>
+ - s：指定了用户默认登录 shell 的路径，此处设置为 bash 的路径</p>
+</blockquote>
+<p>给予普通用户使用 root 的权限</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 打开sudoers文件后</span>
+visudo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>删除 wheel 组前面的注释（#）即可：<br>
+之后普通用户在命令之前加上 sudo 就能以 root 权限执行命令</p>
+<h3 id="安装引导程序-grub"><a class="markdownIt-Anchor" href="#安装引导程序-grub">#</a> 安装引导程序 grub</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># arch下载软件命令：pacman -S &lt;软件名></span>
+<span class="token comment"># 因为我们使用的是虚拟机和UEFI引导方式，因此只需要安装grub和efibootmgr：</span>
+pacman <span class="token parameter variable">-S</span> grub efibootmgr
+<span class="token comment"># 将其安装到EFI分区当中</span>
+grub-install <span class="token parameter variable">--recheck</span> /dev/sda
+<span class="token comment"># 生成 grub 的配置文件：</span>
+<span class="token function">grub-mkconfig</span> <span class="token parameter variable">-o</span> /boot/grub/grub.cfg<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>安装完毕</p>
+<h3 id="退出重启安装完成"><a class="markdownIt-Anchor" href="#退出重启安装完成">#</a> 退出重启，安装完成</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 退回安装环境</span>
+<span class="token builtin class-name">exit</span>
+<span class="token comment"># 卸载新分区</span>
+<span class="token function">umount</span> <span class="token parameter variable">-R</span> /mnt
+<span class="token comment"># 重启</span>
+<span class="token function">reboot</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="开启网络"><a class="markdownIt-Anchor" href="#开启网络">#</a> 开启网络</h3>
+<p>重启后使用登录，若使用普通用户登录则有些命令之前需要加 sudo 以获得 root 权限</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置开机自启并立即启动 dhcp 服务</span>
+systemctl <span class="token builtin class-name">enable</span> <span class="token parameter variable">--now</span> dhcpcd 
+<span class="token comment"># 测试网络连接</span>
+<span class="token function">ping</span> www.bilibili.com 
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>若为无线连接，还需要</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl start iwd <span class="token comment"># 立即启动 iwd</span>
+iwctl <span class="token comment"># 和之前的方式一样，连接无线网络</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>而本人之前遇到网络问题的解决方式，亲测可用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 检查网络接口</span>
+<span class="token function">ip</span> <span class="token function">link</span>
+<span class="token comment"># 开启第二个接口</span>
+<span class="token function">ip</span> <span class="token function">link</span> <span class="token builtin class-name">set</span> dev ens33 up
+<span class="token comment"># 使用 dhcpcd 分配网络地址</span>
+dhcpcd
+<span class="token comment"># 将 dhcpcd 设置为自启</span>
+systemctl <span class="token builtin class-name">enable</span> dhcpcd
+systemctl disable dhcpcd		// 取消自启<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>到此 ArchLinux 已经安装完成啦，撒花❀，但是此时只有命令行的界面，稍后我们将安装图形化界面</p>
+<h2 id="图形化桌面-kdeplasma"><a class="markdownIt-Anchor" href="#图形化桌面-kdeplasma">#</a> 图形化桌面 - KDE (plasma)</h2>
+<p>Linux 的图形化桌面有 KDE、GONE、xfce 等等，这里使用 KDE</p>
+<h3 id="安装-kde-plasma桌面环境"><a class="markdownIt-Anchor" href="#安装-kde-plasma桌面环境">#</a> 安装 KDE plasma 桌面环境</h3>
+<p>安装最小相关软件包</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># plasma-meta 元软件包、konsole 终端模拟器和 dolphin 文件管理器</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> plasma-meta konsole dolphin <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>kde-applications 则是 kde 全家桶<br>
+ <code>sudo pacman -S plasma kde-applications</code> <br>
+ 其中很多都没必要，而且我第一次装完后登录只显示黑屏与鼠标，不知道是部件有问题还是磁盘空间太小（应该是后者？使用最小包安装成功后我 sda2 12g 的存储空间只剩 5g 了）<br>
+假如你不慎安装了 kde 全家桶，想要卸载，可以使用以下命令卸载</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> pacman <span class="token parameter variable">-Rsc</span> plasma
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-Rsc</span> kde-applications<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>kde 默认安装的是 xorg，如果想使用 wayland 的话安装以下包：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman <span class="token parameter variable">-S</span>  plasma-wayland-session xdg-desktop-portal
+<span class="token comment"># N卡用户需要额外安装egl-wayland,xdg-desktop-portal包是为了如obs此类工具录制屏幕使用</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>安装完成后，可以在登录时选择使用 xorg 还是 wayland<br>
+ 另外，虚拟机环境下不需要显卡驱动</p>
+<h3 id="配置-sddm"><a class="markdownIt-Anchor" href="#配置-sddm">#</a> 配置 sddm</h3>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> sddm
+systemctl start sddm  <span class="token comment"># 直接启动显示管理器，与以下reboot命令二选一即可</span>
+<span class="token function">reboot</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>基本的 kde 就安装完成了，之后更改需要的配置，挑选喜欢的主题，查找美化的教程，安装需要的软件，时常记得  <code>sudo pacman -Syu</code>  滚动更新防止滚挂</p>
+<p>完结撒花 ❀</p>
+<h2 id="软件源配置"><a class="markdownIt-Anchor" href="#软件源配置">#</a> 软件源配置</h2>
+<p>执行安装 archlinuxcn 源所需的相关步骤：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> archlinuxcn-keyring <span class="token comment"># cn 源中的签名（archlinuxcn-keyring 在 archlinuxcn）</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> yay <span class="token comment"># yay 命令可以让用户安装 AUR 中的软件（yay 在 archlinuxcn）</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>若安装 archlinuxcn-keyring 时报错，是由于密钥环的问题。<br>
+以 root 权限运行</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pacman <span class="token parameter variable">-Syu</span> haveged
+systemctl start haveged
+systemctl <span class="token builtin class-name">enable</span> haveged
+
+<span class="token function">rm</span> <span class="token parameter variable">-fr</span> /etc/pacman.d/gnupg
+pacman-key <span class="token parameter variable">--init</span>
+pacman-key <span class="token parameter variable">--populate</span> archlinux
+pacman-key <span class="token parameter variable">--populate</span> archlinuxcn<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<p>出现这个问题：==&gt; 错误： 密钥环文件 /usr/share/pacman/keyrings/archlinuxcn.gpg 不存在。<br>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/the-enjoyment-of-time/p/17080795.html">https://www.cnblogs.com/the-enjoyment-of-time/p/17080795.html</a><br>
+ 通过 yay 来装？archlinuxcn 密钥环错误，，而 yay 的一种方式是通过 archlinuxcn，另一种方式是需要 git 安装，而其安装 build 时网络错误，似乎需要透明代理下载依赖，而透明代理的 v2raya 又在 archlinuxcn 里，<s>逆天</s>（找到了解决方法：换源）</p>
+<p>git 安装 yay</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> base-devel 
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> <span class="token function">git</span>
+<span class="token comment"># 进入 /opt 目录并克隆 yay 稳定版的 git 仓库。</span>
+<span class="token builtin class-name">cd</span> /opt
+<span class="token function">sudo</span> <span class="token function">git</span> clone https://aur.archlinux.org/yay.git
+<span class="token comment"># 更改源目录的所有者。将 debugpoint 替换为你的用户名。</span>
+<span class="token function">sudo</span> <span class="token function">chown</span> <span class="token parameter variable">-R</span> free:users ./yay
+<span class="token comment"># 进入目录进行编译</span>
+<span class="token builtin class-name">cd</span> yay
+makepkg <span class="token parameter variable">-si</span>
+<span class="token comment"># 安装中出现 build 错误，卡在下载一个 go 的依赖包</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/439805266">https://zhuanlan.zhihu.com/p/439805266</a><br>
+ 换源后再 makepkg</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /opt
+<span class="token builtin class-name">cd</span> yay
+makepkg <span class="token parameter variable">-si</span> 
+<span class="token comment"># yay 安装 archlinuxcn-keyring</span>
+yay <span class="token parameter variable">-S</span> archlinuxcn-keyring<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<hr>
+<p>问题已解决，推荐上面的方法，下面安装 keyring 后，安装一些软件如 v2ray 时还是有密钥问题，上面的方法已经完全解决问题了</p>
+<hr>
+<p>使用<a target="_blank" rel="noopener" href="http://mirrors.ustc.edu.cn/help/archlinuxcn.html">中科大镜像源</a>，用清华源失败了，还是中科大的靠谱</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">vim</span> /etc/pacman.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在末尾添加</p>
+<pre class="line-numbers language-vim" data-language="vim"><code class="language-vim"><span class="token punctuation">[</span>archlinuxcn<span class="token punctuation">]</span>
+Server <span class="token operator">=</span> https<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token operator">.</span>ustc<span class="token operator">.</span>edu<span class="token operator">.</span><span class="token keyword">cn</span><span class="token operator">/</span>archlinuxcn<span class="token operator">/</span>$arch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>安装 archlinuxcn-keyring</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> archlinuxcn-keyring 
+<span class="token comment"># 如出现错误让你使用 -Sy 安装</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-Sy</span> archlinuxcn-keyring <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<hr>
+<h2 id="软件安装"><a class="markdownIt-Anchor" href="#软件安装">#</a> 软件安装</h2>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> firefox chromium <span class="token comment"># 安装常用的火狐、chromium 浏览器</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> ark <span class="token comment"># 压缩软件。在 dolphin 中可用右键解压压缩包</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> gwenview <span class="token comment"># 图片查看器</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> code <span class="token comment"># all in vscode，yyds</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> go <span class="token comment"># golang</span>
+<span class="token function">sudo</span> pacman <span class="token parameter variable">-S</span> <span class="token function">java</span> <span class="token comment"># java </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="进一步美化桌面"><a class="markdownIt-Anchor" href="#进一步美化桌面">#</a> 进一步美化桌面</h2>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/558354279">https://zhuanlan.zhihu.com/p/558354279</a></p>
+<h2 id="透明代理"><a class="markdownIt-Anchor" href="#透明代理">#</a> 透明代理</h2>
+<p>sudo pacman -S v2ray v2raya</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io">fold leaf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/">https://foldleaf.github.io/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://foldleaf.github.io" target="_blank">leaf's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="/img/rabbit/041.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/05/%E6%A8%B1%E8%8A%B1%E7%89%B9%E6%95%88sakura-js/" title="樱花tex sakura.js"><img class="cover" src="/img/rabbit/066.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">樱花tex sakura.js</div></div></a></div><div class="next-post pull-right"><a href="/2023/01/30/gin%E6%A1%86%E6%9E%B6%E5%88%9D%E8%AF%86/" title="gin框架初识"><img class="cover" src="/img/rabbit/007.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">gin框架初识</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/chino_avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fold leaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>这里什么都没有</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foldleaf" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临，请问要来点什么呢？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E7%94%A8%E5%88%B0%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="toc-number">1.</span> <span class="toc-text"> 可能用到的链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text"> 安装准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E8%BD%AF%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text"> 下载软件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">2.2.</span> <span class="toc-text"> 创建虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text"> 开始安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text"> 开启虚拟机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4"><span class="toc-number">3.2.</span> <span class="toc-text"> 时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-number">3.3.</span> <span class="toc-text"> 磁盘分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%86%E5%8C%BA"><span class="toc-number">3.4.</span> <span class="toc-text"> 初始化分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85"><span class="toc-number">3.5.</span> <span class="toc-text"> 系统安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#locale%E5%9C%B0%E5%8C%BA%E5%92%8C%E8%AF%AD%E8%A8%80%E9%85%8D%E7%BD%AE"><span class="toc-number">3.6.</span> <span class="toc-text"> locale 地区和语言配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">3.7.</span> <span class="toc-text"> 设置主机名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-number">3.8.</span> <span class="toc-text"> 网络配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#root%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81%E5%8F%8A%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="toc-number">3.9.</span> <span class="toc-text"> root 用户密码及创建新用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F-grub"><span class="toc-number">3.10.</span> <span class="toc-text"> 安装引导程序 grub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%80%E5%87%BA%E9%87%8D%E5%90%AF%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90"><span class="toc-number">3.11.</span> <span class="toc-text"> 退出重启，安装完成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E7%BD%91%E7%BB%9C"><span class="toc-number">3.12.</span> <span class="toc-text"> 开启网络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E5%8C%96%E6%A1%8C%E9%9D%A2-kdeplasma"><span class="toc-number">4.</span> <span class="toc-text"> 图形化桌面 - KDE (plasma)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-kde-plasma%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-number">4.1.</span> <span class="toc-text"> 安装 KDE plasma 桌面环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-sddm"><span class="toc-number">4.2.</span> <span class="toc-text"> 配置 sddm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E6%BA%90%E9%85%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text"> 软件源配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-number">6.</span> <span class="toc-text"> 软件安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E4%B8%80%E6%AD%A5%E7%BE%8E%E5%8C%96%E6%A1%8C%E9%9D%A2"><span class="toc-number">7.</span> <span class="toc-text"> 进一步美化桌面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%8F%E6%98%8E%E4%BB%A3%E7%90%86"><span class="toc-number">8.</span> <span class="toc-text"> 透明代理</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img src="/img/rabbit/028.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于本站"/></a><div class="content"><a class="title" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站">关于本站</a><time datetime="2030-01-30T00:47:26.000Z" title="发表于 2030-01-30 08:47:26">2030-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/05/%E6%A8%B1%E8%8A%B1%E7%89%B9%E6%95%88sakura-js/" title="樱花tex sakura.js"><img src="/img/rabbit/066.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="樱花tex sakura.js"/></a><div class="content"><a class="title" href="/2023/02/05/%E6%A8%B1%E8%8A%B1%E7%89%B9%E6%95%88sakura-js/" title="樱花tex sakura.js">樱花tex sakura.js</a><time datetime="2023-02-05T13:54:40.000Z" title="发表于 2023-02-05 21:54:40">2023-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/" title="ArchLinux重开备忘录"><img src="/img/rabbit/041.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ArchLinux重开备忘录"/></a><div class="content"><a class="title" href="/2023/02/05/ArchLinux%E9%87%8D%E5%BC%80%E5%A4%87%E5%BF%98%E5%BD%95/" title="ArchLinux重开备忘录">ArchLinux重开备忘录</a><time datetime="2023-02-05T13:39:03.000Z" title="发表于 2023-02-05 21:39:03">2023-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/30/gin%E6%A1%86%E6%9E%B6%E5%88%9D%E8%AF%86/" title="gin框架初识"><img src="/img/rabbit/007.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="gin框架初识"/></a><div class="content"><a class="title" href="/2023/01/30/gin%E6%A1%86%E6%9E%B6%E5%88%9D%E8%AF%86/" title="gin框架初识">gin框架初识</a><time datetime="2023-01-29T16:00:00.000Z" title="发表于 2023-01-30 00:00:00">2023-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/01/30/go%E4%B8%8E%E5%89%8D%E7%AB%AF%E7%9A%84json%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92/" title="go与前端的json数据交互笔记"><img src="/img/rabbit/044.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go与前端的json数据交互笔记"/></a><div class="content"><a class="title" href="/2023/01/30/go%E4%B8%8E%E5%89%8D%E7%AB%AF%E7%9A%84json%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92/" title="go与前端的json数据交互笔记">go与前端的json数据交互笔记</a><time datetime="2023-01-29T16:00:00.000Z" title="发表于 2023-01-30 00:00:00">2023-01-30</time></div></div></div></div></div></div></main><footer id="footer" style="background: url(/img/footer.png)"><div id="footer-wrap"><div class="copyright">&copy;2023 By fold leaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
