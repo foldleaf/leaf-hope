@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>go的数据类型 | leaf's blog</title><meta name="author" content="fold leaf"><meta name="copyright" content="fold leaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="int bool float string array slice map chan # int int (有符号) 和 uint (无符号) 的大小与操作系统相关，在 32 位操作系统中大小为 32 位 (4 字节)，64 位操作系统中大小为 64 位 (8 字节) int      8 字节 int8     1 字节 int16    2 字节 int32    4 字节 int64">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go的数据类型">
+<meta property="og:url" content="https://foldleaf.github.io/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="leaf&#39;s blog">
+<meta property="og:description" content="int bool float string array slice map chan # int int (有符号) 和 uint (无符号) 的大小与操作系统相关，在 32 位操作系统中大小为 32 位 (4 字节)，64 位操作系统中大小为 64 位 (8 字节) int      8 字节 int8     1 字节 int16    2 字节 int32    4 字节 int64">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foldleaf.github.io/img/rabbit/050.jpg">
+<meta property="article:published_time" content="2023-02-17T16:16:50.000Z">
+<meta property="article:modified_time" content="2023-02-17T16:26:01.466Z">
+<meta property="article:author" content="fold leaf">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foldleaf.github.io/img/rabbit/050.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foldleaf.github.io/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'go的数据类型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-18 00:26:01'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/chino_avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/rabbit/050.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="leaf's blog"><img class="site-icon" src="/img/chiya_avatar.png"/><span class="site-name">leaf's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">go的数据类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-17T16:16:50.000Z" title="发表于 2023-02-18 00:16:50">2023-02-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-17T16:26:01.466Z" title="更新于 2023-02-18 00:26:01">2023-02-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="go的数据类型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>int bool float string array slice map chan</p>
+<h2 id="int"><a class="markdownIt-Anchor" href="#int">#</a> int</h2>
+<p>int (有符号) 和 uint (无符号) 的大小与操作系统相关，在 32 位操作系统中大小为 32 位 (4 字节)，64 位操作系统中大小为 64 位 (8 字节)</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">int      8 字节
+int8     1 字节
+int16    2 字节
+int32    4 字节
+int64    8 字节<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>它们是不同的类型 (type)</p>
+<h2 id="float"><a class="markdownIt-Anchor" href="#float">#</a> float</h2>
+<p>float32，即单精度，32 位 (4 字节)，其中 1 位用来符号，8 位用来指数，剩下的 23 位表示尾数，精确到小数点后七位<br>
+ float64，即双精度，64 位 (8 字节)，其中 1 位用来符号，11 位用来指数，剩下的 52 位表示尾数，精确到小数点后 15 位</p>
+<h2 id="bool"><a class="markdownIt-Anchor" href="#bool">#</a> bool</h2>
+<p>只有 2 种：true 和 false<br>
+bool 值并不会隐式转换为数字值 0 或 1，反之亦然。必须使用一个显式的 if 语句辅助转换：</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">i <span class="token operator">:=</span> <span class="token number">0</span>
+<span class="token keyword">if</span> b <span class="token punctuation">&#123;</span>
+    i <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="string"><a class="markdownIt-Anchor" href="#string">#</a> string</h2>
+<p>字符串可以包含任意的数据，包括 byte 值 0，但是通常是用来包含人类可读的文本。文本字符串通常被解释为采用 UTF8 编码的 Unicode 码点（rune）序列。<br>
+一个字符串是一个不可改变的字节序列，实际上就是占用了一片连续的内存空间，所以能理解为一个字符数组<br>
+在 go 的源码中可以找到 string 的数据结构</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> stringStruct <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	array unsafe<span class="token punctuation">.</span>Pointer   <span class="token comment">// 指向一个 [length]byte 的数组</span>
+	length <span class="token builtin">int</span>             <span class="token comment">// 长度</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其成员有 2 个，一个指向数组的指针，一个是所指数组的长度<br>
+示例图：go 语言圣经 3.5.1</p>
+<h2 id="array"><a class="markdownIt-Anchor" href="#array">#</a> array</h2>
+<p>cmd/compile/internal/types2.Array<br>
+go 源码中数组的结构</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> Array <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	<span class="token builtin">len</span>  <span class="token builtin">int64</span> <span class="token comment">// 数组长度，即元素个数</span>
+	elem Type  <span class="token comment">// 元素类型</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>数组占用一片连续的内存空间</p>
+<h2 id="slice"><a class="markdownIt-Anchor" href="#slice">#</a> slice</h2>
+<p>src/runtime/slice.go<br>
+go 源码中 slice 的结构</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> slice <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	array unsafe<span class="token punctuation">.</span>Pointer  <span class="token comment">// 指向数组的指针</span>
+	<span class="token builtin">len</span>   <span class="token builtin">int</span>             <span class="token comment">// 切片长度</span>
+	<span class="token builtin">cap</span>   <span class="token builtin">int</span>             <span class="token comment">// 切片容量</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其成员有 3 个，一个指向数组的指针，一个是切片的长度，还有一个是切片的容量</p>
+<p>切片的长度就是切片所包含的元素个数。<br>
+切片的容量是从它的第一个元素开始数，到其 <code>底层数组</code> 元素末尾的个数。</p>
+<h2 id="map"><a class="markdownIt-Anchor" href="#map">#</a> map</h2>
+<p>go 源码中 map 的结构<br>
+ src/runtime/map.go</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> hmap <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	
+	count     <span class="token builtin">int</span> <span class="token comment">// map当前元素个数</span>
+	flags     <span class="token builtin">uint8</span> <span class="token comment">// 读、写、扩容、迭代等标记，用于记录map当前状态</span>
+	B         <span class="token builtin">uint8</span>  <span class="token comment">// 用于计算桶大小， bucketSize = 1 &lt;&lt; B ;log_2 of # of buckets (can hold up to loadFactor * 2^B items)</span>
+	noverflow <span class="token builtin">uint16</span> <span class="token comment">// 溢出桶个数，当溢出桶个数过多时，这个值是一个近似值  approximate number of overflow buckets; see incrnoverflow for details</span>
+	hash0     <span class="token builtin">uint32</span> <span class="token comment">// hash seed,计算key哈希值的随机值，保证一个key在不同map中存放的位置是随机的</span>
+
+	buckets    unsafe<span class="token punctuation">.</span>Pointer <span class="token comment">// 当前哈希桶首地址   array of 2^B Buckets. may be nil if count==0.</span>
+	oldbuckets unsafe<span class="token punctuation">.</span>Pointer <span class="token comment">// 旧哈希桶首地址  previous bucket array of half the size, non-nil only when growing</span>
+	nevacuate  <span class="token builtin">uintptr</span>        <span class="token comment">// 已迁移哈希桶个数   progress counter for evacuation (buckets less than this have been evacuated)</span>
+
+	extra <span class="token operator">*</span>mapextra <span class="token comment">// 扩展字段，不一定每个map都需要，后续会详解    optional fields</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>map 是使用 hash 表 (哈希表 / 散列表) 来实现的，一个 hash 表里可以有多个 hash 节点，也叫 bucket (桶 / 哈希桶), 而每个 bucket 就保存了 map 中的一个或一组键值对。<br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/fengshenyun/article/details/100582679">https://blog.csdn.net/fengshenyun/article/details/100582679</a></p>
+<p>bucket 的数据结构</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> bmap <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    tophash <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token builtin">uint8</span> <span class="token comment">//存储哈希值的高8位,哈希值相同的键（准确的说是哈希值低位相同的键）存入当前bucket时会将哈希值的高位存储在该数组中，以方便后续匹配。</span>
+    data    <span class="token builtin">byte</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>  <span class="token comment">//key value数据:key/key/key/.../value/value/value...,如此存放是为了节省字节对齐带来的空间浪费</span>
+    overflow <span class="token operator">*</span>bmap   <span class="token comment">//溢出bucket的地址,指向的是下一个bucket，据此将所有冲突的键连接起来。</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/failymao/p/14902607.html">https://www.cnblogs.com/failymao/p/14902607.html</a><br>
+<a target="_blank" rel="noopener" href="https://www.cnblogs.com/dawnlight/p/15552513.html">https://www.cnblogs.com/dawnlight/p/15552513.html</a></p>
+<h3 id="map数据结构最终梳理"><a class="markdownIt-Anchor" href="#map数据结构最终梳理">#</a> map 数据结构最终梳理</h3>
+<ul>
+<li>hmap 是数组 (切片)，组成元素是 bucket (bmap, 以便区分，这里后面都用 bucket 替代 bmap)；bucket 是链表，指针指向下一个扩充的 bucket。</li>
+<li>map 存储的是 key/value 对 (k/v 对、键值对)</li>
+<li>当 key 传进来时，会经过一个 hash 函数运算得到一个唯一的 hash 值，在 go 中会将这个 hash 值分为高位和低位</li>
+<li>如 hash 值：1314131425002500，高 8 位为 13141314，低 8 位为 25002500</li>
+<li>低位用于寻找 key 属于 hmap 的哪个 bucket，高位用于寻找 bucket 中的哪个 key</li>
+<li>如果 key 计算出的 hash 值低位相同，那么这些 key 存入相同的 bucket 中，在 bucket 中会存储它们的高位，用于存入的 key 的快速预览</li>
+<li>bucket 是以 key/key/key/…/value/value/value… 的方式存储 k/v 对的，这是为了节省字节对齐带来的空间浪费</li>
+<li>每个 bucket 只能存储 8 个 k/v 对，超过 8 个则会扩充一个新的 bucket 存放溢出的 k/v 对，然后指针指向新的 bucket，以此类推，形成一个链表</li>
+</ul>
+<h3 id="负载因子与渐进式扩容"><a class="markdownIt-Anchor" href="#负载因子与渐进式扩容">#</a> 负载因子与渐进式扩容</h3>
+<p>负载因子 = key 数量 /bucket 数量	(len (map)/2^B)</p>
+<ul>
+<li>因子过小，说明空间利用率低:key 少 bucket 多，说明 map 的 bucket 数组个数多，一个 bucket 中存放的 key 少</li>
+<li>因子过大，说明冲突严重，存取效率低:key 多 bucket 少，说明 map 的 bucket 数组个数少，一个 bucket 中存放的 key 多，溢出 bucket 严重</li>
+</ul>
+<p>每个哈希表的实现对负载因子容忍程度不同，go 的阈值为 6.5，即平均每个 bucket 存放 6.5 个 k/v 对；而 redis 的阈值为 1，因为 redis 里每个 bucket 只存放一个 k/v 对</p>
+<p>扩容条件</p>
+<ul>
+<li>1. 负载因子 &gt; 6.5 时，也即平均每个 bucket 存储的键值对达到 6.5 个。</li>
+<li>2.overflow (溢出 bucket) 数量 &gt; 2^15 时，也即 overflow 数量超过 32768 时。</li>
+</ul>
+<p>增量扩容<br>
+因子过大，则会新建一个 bucket 数组将 hmap, 大小为原有 bucket 数组的两倍，并将原有 bucket 数组的数据渐进式地迁移到新 bucket 数组，即每次访问 map 时都会触发一次搬迁，每次搬迁 2 个键值对。</p>
+<p>hmap 的 <code>buckets</code>    <code>oldbuckets</code>   <code>nevacuate</code>  字段就是用来干这个的</p>
+<p>等量扩容<br>
+ buckets 数量不变，只是重新做一遍类似增量扩容的搬迁动作，把松散的键值对重新排列一次，以使 bucket 的使用率更高，进而保证更快的存取。例如过于频繁的对 k/v 进行增删操作，而这些 k/v 集中在某个 bucket 里，则会导致溢出 bucket 严重，影响存取效率</p>
+<h3 id="插入与查找"><a class="markdownIt-Anchor" href="#插入与查找">#</a> 插入与查找</h3>
+<p>插入</p>
+<ul>
+<li>根据 key 值算出哈希值</li>
+<li>取哈希值低位与 hmap.B 取模确定 bucket 位置</li>
+<li>查找该 key 是否已经存在，如果存在则直接更新值</li>
+<li>如果没找到将 key，将 key 插入</li>
+<li></li>
+</ul>
+<p>查找</p>
+<ul>
+<li>根据 key 值算出哈希值</li>
+<li>取哈希值低位与 hmap.B 取模确定 bucket 位置</li>
+<li>取哈希值高位在 tophash 数组中查询</li>
+<li>如果 tophash [i] 中存储值也哈希值相等，则去找到该 bucket 中的 key 值进行比较</li>
+<li>当前 bucket 没有找到，则继续从下个 overflow 的 bucket 中查找。</li>
+<li>如果当前处于搬迁过程，则优先从 oldbuckets 查找<br>
+注：如果查找不到，也不会返回空值，而是返回相应类型的 0 值。</li>
+</ul>
+<h2 id="chan"><a class="markdownIt-Anchor" href="#chan">#</a> chan</h2>
+<p>src/runtime/chan.go</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> hchan <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	qcount   <span class="token builtin">uint</span>           <span class="token comment">// 当前队列中剩余元素个数			total data in the queue</span>
+	dataqsiz <span class="token builtin">uint</span>           <span class="token comment">// 环形队列长度，即可以存放的元素个数	  size of the circular queue</span>
+	buf      unsafe<span class="token punctuation">.</span>Pointer <span class="token comment">// 环形队列指针			     points to an array of dataqsiz elements</span>
+	elemsize <span class="token builtin">uint16</span>		<span class="token comment">// 每个元素的大小</span>
+	closed   <span class="token builtin">uint32</span>		<span class="token comment">// 标识关闭状态</span>
+	elemtype <span class="token operator">*</span>_type <span class="token comment">// 元素类型					       element type</span>
+	sendx    <span class="token builtin">uint</span>   <span class="token comment">// 队列下标，指示元素写入时存放到队列中的位置       send index</span>
+	recvx    <span class="token builtin">uint</span>   <span class="token comment">//队列下标，指示元素从队列的该位置读出		  receive index</span>
+	recvq    waitq  <span class="token comment">//等待读消息的goroutine队列		 	   list of recv waiters</span>
+	sendq    waitq  <span class="token comment">// 等待写消息的goroutine队列			   list of send waiters</span>
+	lock mutex	<span class="token comment">//互斥锁，chan不允许并发读写</span>
+	<span class="token comment">// lock protects all fields in hchan, as well as several</span>
+	<span class="token comment">// fields in sudogs blocked on this channel.</span>
+	<span class="token comment">//</span>
+	<span class="token comment">// Do not change another G's status while holding this lock</span>
+	<span class="token comment">// (in particular, do not ready a G), as this can deadlock</span>
+	<span class="token comment">// with stack shrinking.</span>
+	
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>chan 最核心的部分由一个环形队列和 2 个 waitq 组成，环形队列用于存放数据（带缓冲的情况下），waitq 用于实现阻塞和恢复 goroutine。</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">type</span> waitq <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	first <span class="token operator">*</span>sudog
+	last  <span class="token operator">*</span>sudog
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">type</span> sudog <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    g <span class="token operator">*</span>g
+
+    next <span class="token operator">*</span>sudog
+    prev <span class="token operator">*</span>sudog
+    elem unsafe<span class="token punctuation">.</span>Pointer <span class="token comment">// data element (may point to stack)</span>
+
+    acquiretime <span class="token builtin">int64</span>
+    releasetime <span class="token builtin">int64</span>
+    ticket      <span class="token builtin">uint32</span>
+
+    <span class="token comment">// isSelect indicates g is participating in a select, so</span>
+    <span class="token comment">// g.selectDone must be CAS'd to win the wake-up race.</span>
+    isSelect <span class="token builtin">bool</span>
+
+    <span class="token comment">// success indicates whether communication over channel c</span>
+    <span class="token comment">// succeeded. It is true if the goroutine was awoken because a</span>
+    <span class="token comment">// value was delivered over channel c, and false if awoken</span>
+    <span class="token comment">// because c was closed.</span>
+    success <span class="token builtin">bool</span>
+
+    parent   <span class="token operator">*</span>sudog <span class="token comment">// semaRoot binary tree</span>
+    waitlink <span class="token operator">*</span>sudog <span class="token comment">// g.waiting list or semaRoot</span>
+    waittail <span class="token operator">*</span>sudog <span class="token comment">// semaRoot</span>
+    c        <span class="token operator">*</span>hchan <span class="token comment">// channel</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/failymao/p/14891813.html">https://www.cnblogs.com/failymao/p/14891813.html</a><br>
+<a target="_blank" rel="noopener" href="https://i6448038.github.io/2019/04/11/go-channel/">https://i6448038.github.io/2019/04/11/go-channel/</a><br>
+<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1750350">https://cloud.tencent.com/developer/article/1750350</a></p>
+<h3 id="最终梳理"><a class="markdownIt-Anchor" href="#最终梳理">#</a> 最终梳理</h3>
+<p>channel 在源码是 hchan 结构体，核心为 1 个循环队列、以及 2 个 分别等待读和写的 goroutine 等待队列 (双向链表)</p>
+<h4 id="循环队列"><a class="markdownIt-Anchor" href="#循环队列">#</a> 循环队列</h4>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">qcount   <span class="token builtin">uint</span>             <span class="token comment">// 当前队列中剩余元素</span>
+dataqsiz <span class="token builtin">uint</span>             <span class="token comment">// 队列长度，即可以存放的元素个数</span>
+buf      unsafe<span class="token punctuation">.</span>Pointer   <span class="token comment">// 队列</span>
+sendx    <span class="token builtin">uint</span>   	  <span class="token comment">// 队列下标，指示元素写入时存放到队列中的位置 </span>
+recvx    <span class="token builtin">uint</span>   	  <span class="token comment">// 队列下标，指示元素从队列的该位置读出</span>
+lock	 mutex		  <span class="token comment">// 互斥锁</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在创建 channel 时，在内存中实例化了一个 hchan 的结构体，并返回一个 ch 指针。channel 是一个指针。</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">ch <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在讨论之前先统一一下概念：<br>
+对于发送给 channel 的消息，channel 是接收者，对 channel 来说是写操作；对于 channel 发送出去的消息，channel 是发送者，对 channel 来说是读操作</p>
+<p>sendx: 等待发送。需要发送给 channel 的元素的索引位置 (index)，即元素写入时存放到队列中的位置。</p>
+<p>recvx: 等待接收。需要从 channel 接收的元素的索引位置 (index)，即从队列的该位置读出元素。</p>
+<p>给 channel 发 (send) 数据  (ch&lt;-xx)</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 1.创建一个channel</span>
+<span class="token comment">// 在内存中实例化了一个hchan的结构体，并返回一个ch指针。</span>
+<span class="token comment">// ch是指针，ch用使用队列 buf 来缓存数据</span>
+<span class="token comment">// 队列长度为dataqsiz为3，当前元素 qcount 为 0</span>
+<span class="token comment">// sendx和recvx均为 0</span>
+ch <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token keyword">chan</span> <span class="token builtin">int</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token comment">// 2.将 一个元素写入 buf，</span>
+<span class="token comment">// 首先先加锁</span>
+<span class="token comment">// 将元素拷贝，传递给channel</span>
+<span class="token comment">// 索引 0 位置写入了新的元素，sendx变为1，即下一个元素需要写入索引1的位置；recvx不变，即下一个读操作从索引0的位置读取</span>
+<span class="token comment">// 队列长度为dataqsiz为3，当前元素 qcount 为 1</span>
+<span class="token comment">// 释放锁</span>
+ch<span class="token operator">&lt;-</span><span class="token number">1</span>
+ch<span class="token operator">&lt;-</span><span class="token number">1</span>
+ch<span class="token operator">&lt;-</span><span class="token number">1</span>
+<span class="token comment">// 队列缓存已满，再次写入会发生堵塞，这点我们后面再讲</span>
+<span class="token comment">// 每次写入sendx+1，写入了3个元素，因为是循环队列 sendx又变为0；因为没有读取，recvx一直不变还是0</span>
+
+<span class="token comment">// 3.从buf读取一个元素,和写元素类似</span>
+<span class="token comment">// 首先先加锁</span>
+<span class="token comment">// channel将元素传递给接收者</span>
+<span class="token comment">// 从索引 0 位置读出元素，recvx变为1，即需要读取的下一个元素位置为索引1；sendx为0，即下一个元素需要写入索引0的位置</span>
+<span class="token comment">// 队列长度为dataqsiz为3，当前元素 qcount 为 2</span>
+<span class="token comment">// 释放锁</span>
+<span class="token operator">&lt;-</span>ch
+<span class="token operator">&lt;-</span>ch
+<span class="token operator">&lt;-</span>ch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个应该很有用，但太长了不想看<br>
+<a target="_blank" rel="noopener" href="https://blog.csdn.net/kesenzhang/article/details/104488727"> https://blog.csdn.net/kesenzhang/article/details/104488727</a></p>
+<h3 id="双向链表"><a class="markdownIt-Anchor" href="#双向链表">#</a> 双向链表</h3>
+<p>主要实现了堵塞</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">recvq    waitq  <span class="token comment">//等待读消息的goroutine队列	</span>
+sendq    waitq  <span class="token comment">// 等待写消息的goroutine队列  </span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>这部分与 GPM 调度有关，等我写好内存模型和调度后再继续写，to be continent …</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io">fold leaf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">https://foldleaf.github.io/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://foldleaf.github.io" target="_blank">leaf's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/golang/">golang</a></div><div class="post_share"><div class="social-share" data-image="/img/rabbit/050.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img class="cover" src="/img/rabbit/028.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">关于本站</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/13/gin-gorm1%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96/" title="1.项目准备初始化"><img class="cover" src="/img/rabbit/019.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">1.项目准备初始化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/13/gin-gorm1%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96/" title="1.项目准备初始化"><img class="cover" src="/img/rabbit/019.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">1.项目准备初始化</div></div></a></div><div><a href="/2023/02/13/gin-gorm2%E6%95%B0%E6%8D%AE%E5%BA%93/" title="2.数据库准备"><img class="cover" src="/img/rabbit/068.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">2.数据库准备</div></div></a></div><div><a href="/2023/02/13/gin-gorm3%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E8%B7%AF%E7%94%B1%E6%8E%A5%E5%8F%A3/" title="3.错误处理与路由接口"><img class="cover" src="/img/rabbit/080.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">3.错误处理与路由接口</div></div></a></div><div><a href="/2023/02/13/gin-gorm4%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%8E%A5%E5%8F%A3%E7%BC%96%E5%86%99/" title="4.用户模块接口编写"><img class="cover" src="/img/rabbit/070.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">4.用户模块接口编写</div></div></a></div><div><a href="/2023/02/13/gin-gorm5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/" title="5.密码加密"><img class="cover" src="/img/rabbit/014.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">5.密码加密</div></div></a></div><div><a href="/2023/02/13/gin-gorm6%E7%BC%96%E8%BE%91%E3%80%81%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7/" title="6.编辑、删除用户"><img class="cover" src="/img/rabbit/005.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">6.编辑、删除用户</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/chino_avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fold leaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://foldleaf.github.com"><i class="fab fa-github"></i><span>这里什么都没有</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foldleaf" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临，请问要来点什么呢？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#int"><span class="toc-number">1.</span> <span class="toc-text"> int</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#float"><span class="toc-number">2.</span> <span class="toc-text"> float</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bool"><span class="toc-number">3.</span> <span class="toc-text"> bool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#string"><span class="toc-number">4.</span> <span class="toc-text"> string</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#array"><span class="toc-number">5.</span> <span class="toc-text"> array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#slice"><span class="toc-number">6.</span> <span class="toc-text"> slice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-number">7.</span> <span class="toc-text"> map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#map%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9C%80%E7%BB%88%E6%A2%B3%E7%90%86"><span class="toc-number">7.1.</span> <span class="toc-text"> map 数据结构最终梳理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9B%A0%E5%AD%90%E4%B8%8E%E6%B8%90%E8%BF%9B%E5%BC%8F%E6%89%A9%E5%AE%B9"><span class="toc-number">7.2.</span> <span class="toc-text"> 负载因子与渐进式扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E4%B8%8E%E6%9F%A5%E6%89%BE"><span class="toc-number">7.3.</span> <span class="toc-text"> 插入与查找</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chan"><span class="toc-number">8.</span> <span class="toc-text"> chan</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%A2%B3%E7%90%86"><span class="toc-number">8.1.</span> <span class="toc-text"> 最终梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E9%98%9F%E5%88%97"><span class="toc-number">8.1.1.</span> <span class="toc-text"> 循环队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8"><span class="toc-number">8.2.</span> <span class="toc-text"> 双向链表</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img src="/img/rabbit/028.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于本站"/></a><div class="content"><a class="title" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站">关于本站</a><time datetime="2030-01-30T00:47:26.000Z" title="发表于 2030-01-30 08:47:26">2030-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="go的数据类型"><img src="/img/rabbit/050.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go的数据类型"/></a><div class="content"><a class="title" href="/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="go的数据类型">go的数据类型</a><time datetime="2023-02-17T16:16:50.000Z" title="发表于 2023-02-18 00:16:50">2023-02-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/gin-gorm1%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96/" title="1.项目准备初始化"><img src="/img/rabbit/019.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="1.项目准备初始化"/></a><div class="content"><a class="title" href="/2023/02/13/gin-gorm1%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96/" title="1.项目准备初始化">1.项目准备初始化</a><time datetime="2023-02-12T16:00:00.000Z" title="发表于 2023-02-13 00:00:00">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/gin-gorm2%E6%95%B0%E6%8D%AE%E5%BA%93/" title="2.数据库准备"><img src="/img/rabbit/068.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2.数据库准备"/></a><div class="content"><a class="title" href="/2023/02/13/gin-gorm2%E6%95%B0%E6%8D%AE%E5%BA%93/" title="2.数据库准备">2.数据库准备</a><time datetime="2023-02-12T16:00:00.000Z" title="发表于 2023-02-13 00:00:00">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/gin-gorm3%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E8%B7%AF%E7%94%B1%E6%8E%A5%E5%8F%A3/" title="3.错误处理与路由接口"><img src="/img/rabbit/080.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="3.错误处理与路由接口"/></a><div class="content"><a class="title" href="/2023/02/13/gin-gorm3%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E8%B7%AF%E7%94%B1%E6%8E%A5%E5%8F%A3/" title="3.错误处理与路由接口">3.错误处理与路由接口</a><time datetime="2023-02-12T16:00:00.000Z" title="发表于 2023-02-13 00:00:00">2023-02-13</time></div></div></div></div></div></div></main><footer id="footer" style="background: url(/img/footer.png)"><div id="footer-wrap"><div class="copyright">&copy;2023 By fold leaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
