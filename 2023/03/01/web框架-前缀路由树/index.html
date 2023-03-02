@@ -1,0 +1,245 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>web框架-前缀路由树 | leaf's blog</title><meta name="author" content="fold leaf"><meta name="copyright" content="fold leaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="极客兔兔的 web 框架，该框架是参考 gin 的造轮子项目。前缀路由树这篇注释太少，不易于理解。个人写了写自己的理解，希望对来访的客人也有用 # 树结构 &#x2F;&#x2F; 前缀路由树-树节点 type node struct &amp;#123; 	pattern  string  &#x2F;&#x2F; 待匹配路由 &#x2F;p&#x2F;:lang 	part     string  &#x2F;&#x2F; 路由的一部分 :lang，或者叫该节点存储的子路由好一点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web框架-前缀路由树">
+<meta property="og:url" content="https://foldleaf.github.io/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/index.html">
+<meta property="og:site_name" content="leaf&#39;s blog">
+<meta property="og:description" content="极客兔兔的 web 框架，该框架是参考 gin 的造轮子项目。前缀路由树这篇注释太少，不易于理解。个人写了写自己的理解，希望对来访的客人也有用 # 树结构 &#x2F;&#x2F; 前缀路由树-树节点 type node struct &amp;#123; 	pattern  string  &#x2F;&#x2F; 待匹配路由 &#x2F;p&#x2F;:lang 	part     string  &#x2F;&#x2F; 路由的一部分 :lang，或者叫该节点存储的子路由好一点">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foldleaf.github.io/img/rabbit/071.jpg">
+<meta property="article:published_time" content="2023-02-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-02T12:51:31.024Z">
+<meta property="article:author" content="fold leaf">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foldleaf.github.io/img/rabbit/071.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foldleaf.github.io/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web框架-前缀路由树',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-02 20:51:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/chino_avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/rabbit/071.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="leaf's blog"><img class="site-icon" src="/img/chiya_avatar.png"/><span class="site-name">leaf's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">web框架-前缀路由树</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-28T16:00:00.000Z" title="发表于 2023-03-01 00:00:00">2023-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-02T12:51:31.024Z" title="更新于 2023-03-02 20:51:31">2023-03-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/go/">go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="web框架-前缀路由树"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>极客兔兔的 web 框架，该框架是参考 gin 的造轮子项目。前缀路由树这篇注释太少，不易于理解。个人写了写自己的理解，希望对来访的客人也有用</p>
+<h2 id="树结构"><a class="markdownIt-Anchor" href="#树结构">#</a> 树结构</h2>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 前缀路由树-树节点</span>
+<span class="token keyword">type</span> node <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+	pattern  <span class="token builtin">string</span>  <span class="token comment">// 待匹配路由 /p/:lang</span>
+	part     <span class="token builtin">string</span>  <span class="token comment">// 路由的一部分 :lang，或者叫该节点存储的子路由好一点,在路由中是以 / 字符分隔的最小单位</span>
+	children <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>node <span class="token comment">// 子节点</span>
+	isWild   <span class="token builtin">bool</span>    <span class="token comment">//是否精确匹配，part 含有 : 或 * 时为true，否则为false</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="注册路由"><a class="markdownIt-Anchor" href="#注册路由">#</a> 注册路由</h2>
+<p>匹配子节点的方法，你可以先看下面的 insert 方法再倒回来看</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 匹配成功的节点，用于插入；插入时只会有一个节点的part匹配</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>n <span class="token operator">*</span>node<span class="token punctuation">)</span> <span class="token function">matchChild</span><span class="token punctuation">(</span>part <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token operator">*</span>node <span class="token punctuation">&#123;</span>
+	<span class="token comment">// 遍历节点的子节点，子节点的part与要匹配的part相同</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> child <span class="token operator">:=</span> <span class="token keyword">range</span> n<span class="token punctuation">.</span>children <span class="token punctuation">&#123;</span>
+		<span class="token keyword">if</span> child<span class="token punctuation">.</span>part <span class="token operator">==</span> part <span class="token operator">||</span> child<span class="token punctuation">.</span>isWild <span class="token punctuation">&#123;</span>
+			<span class="token comment">//返回匹配的节点</span>
+			<span class="token keyword">return</span> child
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>插入节点的方法</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 注册路由规则</span>
+<span class="token comment">// 对pattern解析，以 / 为分隔符分解为 parts 数组，递归插入路由树，height为插入树的高度</span>
+<span class="token comment">// 例: pattern	-	"/p/:lang/doc"</span>
+<span class="token comment">//	parts	-	[]string&#123;“p”,“lang”,“doc”&#125;</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>n <span class="token operator">*</span>node<span class="token punctuation">)</span> <span class="token function">insert</span><span class="token punctuation">(</span>pattern <span class="token builtin">string</span><span class="token punctuation">,</span> parts <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span> height <span class="token builtin">int</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// n节点所在树的高度与分解的part数是否相等，即判断 part 是否全部插入完毕</span>
+	<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>parts<span class="token punctuation">)</span> <span class="token operator">==</span> height <span class="token punctuation">&#123;</span>
+		<span class="token comment">// 只有最后一个节点才会设置pattern，用于查询时匹配，这之前的节点该pattern字段均为空</span>
+		<span class="token comment">// 确保只有相同层级的相同part才能匹配</span>
+		n<span class="token punctuation">.</span>pattern <span class="token operator">=</span> pattern
+		<span class="token keyword">return</span>
+	<span class="token punctuation">&#125;</span>
+	part <span class="token operator">:=</span> parts<span class="token punctuation">[</span>height<span class="token punctuation">]</span>
+	<span class="token comment">// 在子节点中查找匹配 part 的第一个节点，然后判断是否存在匹配 part的节点</span>
+	<span class="token comment">// 存在则将其作为子节点，继续下一步</span>
+	child <span class="token operator">:=</span> n<span class="token punctuation">.</span><span class="token function">matchChild</span><span class="token punctuation">(</span>part<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> child <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">&#123;</span>
+		<span class="token comment">// 不存在，则构建新节点，将part写入，根据该part第一个字符是否有:和*，设置isWild</span>
+		child <span class="token operator">=</span> <span class="token operator">&amp;</span>node<span class="token punctuation">&#123;</span>part<span class="token punctuation">:</span> part<span class="token punctuation">,</span> isWild<span class="token punctuation">:</span> part<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token char">':'</span> <span class="token operator">||</span> part<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token char">'*'</span><span class="token punctuation">&#125;</span>
+		<span class="token comment">// 将该节点作为n节点的子节点插入树中</span>
+		n<span class="token punctuation">.</span>children <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>children<span class="token punctuation">,</span> child<span class="token punctuation">)</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// 继续查找child的子节点，插入下一个part，直到把parts数组的part全部插入为止</span>
+	child<span class="token punctuation">.</span><span class="token function">insert</span><span class="token punctuation">(</span>pattern<span class="token punctuation">,</span> parts<span class="token punctuation">,</span> height<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="查询路由"><a class="markdownIt-Anchor" href="#查询路由">#</a> 查询路由</h2>
+<p>同样，你可以先看下面的 search 方法再到回来看这个</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 所有匹配成功的节点，用于查找；与插入时匹配不同的是，有可能存在多个part能匹配的节点,例如动态路由 /:xxx</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>n <span class="token operator">*</span>node<span class="token punctuation">)</span> <span class="token function">matchChildren</span><span class="token punctuation">(</span>part <span class="token builtin">string</span><span class="token punctuation">)</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>node <span class="token punctuation">&#123;</span>
+	nodes <span class="token operator">:=</span> <span class="token function">make</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">*</span>node<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token comment">// 遍历节点的子节点，子节点的part与要匹配的part相同</span>
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span> child <span class="token operator">:=</span> <span class="token keyword">range</span> n<span class="token punctuation">.</span>children <span class="token punctuation">&#123;</span>
+		<span class="token keyword">if</span> child<span class="token punctuation">.</span>part <span class="token operator">==</span> part <span class="token operator">||</span> child<span class="token punctuation">.</span>isWild <span class="token punctuation">&#123;</span>
+			nodes <span class="token operator">=</span> <span class="token function">append</span><span class="token punctuation">(</span>nodes<span class="token punctuation">,</span> child<span class="token punctuation">)</span>
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// 返回所有匹配的节点</span>
+	<span class="token keyword">return</span> nodes
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>search 方法</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// 查询匹配路由</span>
+<span class="token keyword">func</span> <span class="token punctuation">(</span>n <span class="token operator">*</span>node<span class="token punctuation">)</span> <span class="token function">search</span><span class="token punctuation">(</span>parts <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token builtin">string</span><span class="token punctuation">,</span>height <span class="token builtin">int</span><span class="token punctuation">)</span><span class="token operator">*</span>node<span class="token punctuation">&#123;</span>
+	<span class="token comment">// n节点所在树的高度与分解的part数相等，或n节点的part字段以字符 * 开头，则匹配完毕</span>
+	<span class="token keyword">if</span> <span class="token function">len</span><span class="token punctuation">(</span>parts<span class="token punctuation">)</span><span class="token operator">==</span>height<span class="token operator">||</span>strings<span class="token punctuation">.</span><span class="token function">HasPrefix</span><span class="token punctuation">(</span>n<span class="token punctuation">.</span>part<span class="token punctuation">,</span><span class="token string">"*"</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token comment">// 注册路由插入该节点的最大高度并不是该层级，pattern字段为空，也无法匹配(详见insert方法的第一个if语句)</span>
+		<span class="token keyword">if</span> n<span class="token punctuation">.</span>pattern<span class="token operator">==</span><span class="token string">""</span><span class="token punctuation">&#123;</span>
+			<span class="token keyword">return</span> <span class="token boolean">nil</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token comment">// 匹配到了，返回该节点</span>
+		<span class="token keyword">return</span> n
+	<span class="token punctuation">&#125;</span>
+	part<span class="token operator">:=</span>parts<span class="token punctuation">[</span>height<span class="token punctuation">]</span>
+	<span class="token comment">// 在n节点的子节点中查找所有与part匹配的节点</span>
+	chirldren<span class="token operator">:=</span>n<span class="token punctuation">.</span><span class="token function">matchChildren</span><span class="token punctuation">(</span>part<span class="token punctuation">)</span>
+
+	<span class="token keyword">for</span> <span class="token boolean">_</span><span class="token punctuation">,</span>child<span class="token operator">:=</span><span class="token keyword">range</span> chirldren<span class="token punctuation">&#123;</span>
+		<span class="token comment">// 继续递归查询子节点，匹配下一个part，直到parts数组的part完全匹配为止</span>
+		result<span class="token operator">:=</span>child<span class="token punctuation">.</span><span class="token function">search</span><span class="token punctuation">(</span>parts<span class="token punctuation">,</span>height<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+		<span class="token keyword">if</span> result<span class="token operator">!=</span><span class="token boolean">nil</span><span class="token punctuation">&#123;</span>
+			<span class="token keyword">return</span> result
+		<span class="token punctuation">&#125;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token keyword">return</span> <span class="token boolean">nil</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io">fold leaf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/">https://foldleaf.github.io/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://foldleaf.github.io" target="_blank">leaf's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/vue/">vue</a></div><div class="post_share"><div class="social-share" data-image="/img/rabbit/071.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img class="cover" src="/img/rabbit/028.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">关于本站</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/27/go%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%AE%9E%E6%97%B6%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/" title="go的多线程-实时数据采集"><img class="cover" src="/img/rabbit/066.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">go的多线程-实时数据采集</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/01/30/vue3%20%E9%80%9F%E6%88%90%E6%8C%87%E5%8D%97/" title="vue3 速成指南"><img class="cover" src="/img/rabbit/022.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-30</div><div class="title">vue3 速成指南</div></div></a></div><div><a href="/2022/12/19/vue%E5%88%9D%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%8D%95%E6%96%87%E4%BB%B6%E7%BB%84%E4%BB%B6/" title="vue初学笔记-单文件组件"><img class="cover" src="/img/rabbit/031.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-19</div><div class="title">vue初学笔记-单文件组件</div></div></a></div><div><a href="/2023/01/30/%E5%89%8D%E5%90%8E%E7%AB%AF%E4%BA%A4%E4%BA%92/" title="前后端交互"><img class="cover" src="/img/rabbit/052.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-30</div><div class="title">前后端交互</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/chino_avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fold leaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://foldleaf.github.com"><i class="fab fa-github"></i><span>这里什么都没有</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foldleaf" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临，请问要来点什么呢？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%91%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text"> 树结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E8%B7%AF%E7%94%B1"><span class="toc-number">2.</span> <span class="toc-text"> 注册路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%B7%AF%E7%94%B1"><span class="toc-number">3.</span> <span class="toc-text"> 查询路由</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img src="/img/rabbit/028.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于本站"/></a><div class="content"><a class="title" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站">关于本站</a><time datetime="2030-01-30T00:47:26.000Z" title="发表于 2030-01-30 08:47:26">2030-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/" title="web框架-前缀路由树"><img src="/img/rabbit/071.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web框架-前缀路由树"/></a><div class="content"><a class="title" href="/2023/03/01/web%E6%A1%86%E6%9E%B6-%E5%89%8D%E7%BC%80%E8%B7%AF%E7%94%B1%E6%A0%91/" title="web框架-前缀路由树">web框架-前缀路由树</a><time datetime="2023-02-28T16:00:00.000Z" title="发表于 2023-03-01 00:00:00">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/27/go%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%AE%9E%E6%97%B6%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/" title="go的多线程-实时数据采集"><img src="/img/rabbit/066.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go的多线程-实时数据采集"/></a><div class="content"><a class="title" href="/2023/02/27/go%E7%9A%84%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%AE%9E%E6%97%B6%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/" title="go的多线程-实时数据采集">go的多线程-实时数据采集</a><time datetime="2023-02-26T16:00:00.000Z" title="发表于 2023-02-27 00:00:00">2023-02-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/20/pytorch%E5%AE%89%E8%A3%85/" title="pytorch安装"><img src="/img/rabbit/047.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="pytorch安装"/></a><div class="content"><a class="title" href="/2023/02/20/pytorch%E5%AE%89%E8%A3%85/" title="pytorch安装">pytorch安装</a><time datetime="2023-02-19T16:00:00.000Z" title="发表于 2023-02-20 00:00:00">2023-02-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="go的数据类型深入解析"><img src="/img/rabbit/050.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="go的数据类型深入解析"/></a><div class="content"><a class="title" href="/2023/02/18/go%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="go的数据类型深入解析">go的数据类型深入解析</a><time datetime="2023-02-17T16:16:50.000Z" title="发表于 2023-02-18 00:16:50">2023-02-18</time></div></div></div></div></div></div></main><footer id="footer" style="background: url(/img/footer.png)"><div id="footer-wrap"><div class="copyright">&copy;2023 By fold leaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
