@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>关于 string、rune 与 byte | leaf's blog</title><meta name="author" content="fold leaf"><meta name="copyright" content="fold leaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="# 关于引号 &quot;&quot; : 双引号，包裹的类型是 string  &#39;&#39; : 单引号，包裹的类型是 rune,rune 是 int32 的别名，只能是单个字符  &#96;&#96; : 反引号，包裹的类型是 string  &#96;&#96;  不会解析转义符， &quot;&quot;  会解析转义符 在编辑器里 &#96;&#96;  中 可以回车换行 使用 &quot;&quot;  时不管有没有转义符都会遍历字符数组一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 string、rune 与 byte">
+<meta property="og:url" content="https://foldleaf.github.io/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/index.html">
+<meta property="og:site_name" content="leaf&#39;s blog">
+<meta property="og:description" content="# 关于引号 &quot;&quot; : 双引号，包裹的类型是 string  &#39;&#39; : 单引号，包裹的类型是 rune,rune 是 int32 的别名，只能是单个字符  &#96;&#96; : 反引号，包裹的类型是 string  &#96;&#96;  不会解析转义符， &quot;&quot;  会解析转义符 在编辑器里 &#96;&#96;  中 可以回车换行 使用 &quot;&quot;  时不管有没有转义符都会遍历字符数组一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foldleaf.github.io/img/rabbit/048.jpg">
+<meta property="article:published_time" content="2023-03-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-13T13:33:27.154Z">
+<meta property="article:author" content="fold leaf">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foldleaf.github.io/img/rabbit/048.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foldleaf.github.io/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于 string、rune 与 byte',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-13 21:33:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/chino_avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/rabbit/048.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="leaf's blog"><img class="site-icon" src="/img/chiya_avatar.png"/><span class="site-name">leaf's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">关于 string、rune 与 byte</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-13T13:33:27.154Z" title="更新于 2023-03-13 21:33:27">2023-03-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于 string、rune 与 byte"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="关于引号"><a class="markdownIt-Anchor" href="#关于引号">#</a> 关于引号</h1>
+<p><code>&quot;&quot;</code> : 双引号，包裹的类型是 string<br>
+ <code>''</code> : 单引号，包裹的类型是 rune,rune 是 int32 的别名，只能是单个字符<br>
+ <code>``</code> : 反引号，包裹的类型是 string</p>
+<ol>
+<li><code>``</code>  不会解析转义符， <code>&quot;&quot;</code>  会解析转义符</li>
+<li>在编辑器里 <code>``</code>  中 可以回车换行</li>
+<li>使用 <code>&quot;&quot;</code>  时不管有没有转义符都会遍历字符数组一遍寻找转义符，而使用 <code>``</code>  则是直接输出，所以 <code>``</code>  性能好一点</li>
+</ol>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">char1 <span class="token operator">:=</span> <span class="token string">"A"</span>
+char2 <span class="token operator">:=</span> <span class="token char">'A'</span>
+char3 <span class="token operator">:=</span> <span class="token string">`A`</span>
+char4 <span class="token operator">:=</span> <span class="token string">"asd\nfghjkl"</span>
+<span class="token comment">//在编辑器里这串字符换行后有两个缩进</span>
+char5 <span class="token operator">:=</span> <span class="token string">`asd\nfg
+		nhjkl`</span>
+<span class="token comment">// char4:='AB' 不行，只能单个字符</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char1:%v(类型:%T)\n"</span><span class="token punctuation">,</span> char1<span class="token punctuation">,</span> char1<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char2:%v(类型:%T)\n"</span><span class="token punctuation">,</span> char2<span class="token punctuation">,</span> char2<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char3:%v(类型:%T)\n"</span><span class="token punctuation">,</span> char3<span class="token punctuation">,</span> char3<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char4:%v(类型:%T)\n"</span><span class="token punctuation">,</span> char4<span class="token punctuation">,</span> char4<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char5:%v(类型:%T)\n"</span><span class="token punctuation">,</span> char5<span class="token punctuation">,</span> char5<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">char1<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">string</span><span class="token punctuation">)</span>
+char2<span class="token punctuation">:</span><span class="token function">65</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span>
+char3<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">string</span><span class="token punctuation">)</span>
+char4<span class="token punctuation">:</span>asd
+<span class="token function">fghjkl</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">string</span><span class="token punctuation">)</span>
+char5<span class="token punctuation">:</span>asd\nfg
+		<span class="token function">nhjkl</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">string</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="byte-与-rune"><a class="markdownIt-Anchor" href="#byte-与-rune">#</a> byte 与 rune</h1>
+<p>byte: unit8 的别名。代表 ASCII 码的一个字符（占一个字节）<br>
+rune: int32 的别名。用于标识 Unicode 字符，代表一个 UTF-8 字符 (占多个字节，例如英文字母占一个字节，中文汉字一般占三个字节)<br>
+ 因为识别的字节数不一样，所以使用不同的处理方式结果会有所不同，请看下一小节</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token keyword">var</span> char1 <span class="token builtin">byte</span> <span class="token operator">=</span> <span class="token char">'A'</span>
+char2 <span class="token operator">:=</span> <span class="token char">'A'</span>	<span class="token comment">// 默认是 int32/rune</span>
+<span class="token keyword">var</span> char3 <span class="token builtin">byte</span> <span class="token operator">=</span> <span class="token number">65</span>
+<span class="token keyword">var</span> char4 <span class="token builtin">byte</span> <span class="token operator">=</span> <span class="token char">'\x41'</span>
+<span class="token keyword">var</span> char5 <span class="token builtin">byte</span> <span class="token operator">=</span> <span class="token char">'\101'</span>
+<span class="token comment">// %c:字符的unicode码值; %T：变量的类型; %v:值的默认格式; %U:表示为Unicode格式</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char1:%c(类型:%T)(%v)(%U)\n"</span><span class="token punctuation">,</span> char1<span class="token punctuation">,</span> char1<span class="token punctuation">,</span>char1<span class="token punctuation">,</span>char1<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char2:%c(类型:%T)(%v)\n"</span><span class="token punctuation">,</span> char2<span class="token punctuation">,</span> char2<span class="token punctuation">,</span>char2<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char3:%c(类型:%T)(%v)\n"</span><span class="token punctuation">,</span> char3<span class="token punctuation">,</span> char3<span class="token punctuation">,</span>char3<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char4:%c(类型:%T)(%v)\n"</span><span class="token punctuation">,</span> char4<span class="token punctuation">,</span> char4<span class="token punctuation">,</span>char4<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char5:%c(类型:%T)(%v)\n"</span><span class="token punctuation">,</span> char5<span class="token punctuation">,</span> char5<span class="token punctuation">,</span>char5<span class="token punctuation">)</span>
+<span class="token keyword">var</span> char6 <span class="token builtin">rune</span> <span class="token operator">=</span><span class="token char">'\u0041'</span>
+<span class="token keyword">var</span> char7 <span class="token builtin">int64</span><span class="token operator">=</span><span class="token char">'\U00000041'</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char6:%c(类型:%T)(%v)(%U)\n"</span><span class="token punctuation">,</span> char6<span class="token punctuation">,</span> char6<span class="token punctuation">,</span>char6<span class="token punctuation">,</span>char6<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"char7:%c(类型:%T)(%v)(%U)\n"</span><span class="token punctuation">,</span> char7<span class="token punctuation">,</span> char7<span class="token punctuation">,</span>char7<span class="token punctuation">,</span>char7<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">char1<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0041</span><span class="token punctuation">)</span>
+char2<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span>
+char3<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span>
+char4<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span>
+char5<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span>
+char6<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0041</span><span class="token punctuation">)</span>
+char7<span class="token punctuation">:</span><span class="token function">A</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int64</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">65</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0041</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="string"><a class="markdownIt-Anchor" href="#string">#</a> string</h1>
+<h2 id="字符数组"><a class="markdownIt-Anchor" href="#字符数组">#</a> 字符数组</h2>
+<p>string 的底层是字符数组</p>
+<p>使用传统的 <code>for-i++</code>  循环时会按 ASCII 处理，按 unit8 的格式进行解析，得到的是 [] byte;</p>
+<p>使用 <code>for-range</code>  循环时则是按 int32 的格式进行解析，得到的是 [] rune;</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">str <span class="token operator">:=</span> <span class="token string">"goの世界"</span>
+<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">len</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">&#123;</span>
+	<span class="token comment">// byte/unit8类型，按 ASCII 处理,会有乱码</span>
+    <span class="token comment">// %c:字符的unicode码值; %T：变量的类型; %v:值的默认格式; %U:表示为Unicode格式</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str[%v]:%c(类型:%T)(%U)\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> str<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token string">"--------"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i<span class="token punctuation">,</span> v <span class="token operator">:=</span> <span class="token keyword">range</span> str <span class="token punctuation">&#123;</span>
+	<span class="token comment">// rune/int32类型,按 UTF-8 处理</span>
+	fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str[%v]:%c(类型:%T)(%U)\n"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> v<span class="token punctuation">,</span> v<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+<span class="token punctuation">&#125;</span>
+
+str1 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span>
+str2 <span class="token operator">:=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">rune</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str1:%c,%v,%U\n"</span><span class="token punctuation">,</span> str1<span class="token punctuation">,</span> str1<span class="token punctuation">,</span> str1<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str2:%c,%v,%U\n"</span><span class="token punctuation">,</span> str2<span class="token punctuation">,</span> str2<span class="token punctuation">,</span> str2<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str的ASCII长度:%v\n"</span><span class="token punctuation">,</span> <span class="token function">len</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Printf</span><span class="token punctuation">(</span><span class="token string">"str的UTF-8长度:%v\n"</span><span class="token punctuation">,</span> utf8<span class="token punctuation">.</span><span class="token function">RuneCountInString</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go">str<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token function">g</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0067</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token function">o</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>006F<span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">:</span>ã<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">00E3</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0081</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">:</span>®<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>00AE<span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">:</span>ä<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">00E4</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">:</span>¸<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>00B8<span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0096</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">:</span>ç<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">00E7</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0095</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">uint8</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>008C<span class="token punctuation">)</span>
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>
+str<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token function">g</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">0067</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token function">o</span><span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>006F<span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">:</span>の<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>306E<span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">:</span>世<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span><span class="token number">4E16</span><span class="token punctuation">)</span>
+str<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">:</span>界<span class="token punctuation">(</span>类型<span class="token punctuation">:</span><span class="token builtin">int32</span><span class="token punctuation">)</span><span class="token punctuation">(</span>U<span class="token operator">+</span>754C<span class="token punctuation">)</span>
+str1<span class="token punctuation">:</span><span class="token punctuation">[</span>g o ã  ® ä ¸  ç  <span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">103</span> <span class="token number">111</span> <span class="token number">227</span> <span class="token number">129</span> <span class="token number">174</span> <span class="token number">228</span> <span class="token number">184</span> <span class="token number">150</span> <span class="token number">231</span> <span class="token number">149</span> <span class="token number">140</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span>U<span class="token operator">+</span><span class="token number">0067</span> U<span class="token operator">+</span>006F U<span class="token operator">+</span><span class="token number">00E3</span> U<span class="token operator">+</span><span class="token number">0081</span> U<span class="token operator">+</span>00AE U<span class="token operator">+</span><span class="token number">00E4</span> U<span class="token operator">+</span>00B8 U<span class="token operator">+</span><span class="token number">0096</span> U<span class="token operator">+</span><span class="token number">00E7</span> U<span class="token operator">+</span><span class="token number">0095</span> U<span class="token operator">+</span>008C<span class="token punctuation">]</span>
+str2<span class="token punctuation">:</span><span class="token punctuation">[</span>g o の 世 界<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">103</span> <span class="token number">111</span> <span class="token number">12398</span> <span class="token number">19990</span> <span class="token number">30028</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span>U<span class="token operator">+</span><span class="token number">0067</span> U<span class="token operator">+</span>006F U<span class="token operator">+</span>306E U<span class="token operator">+</span><span class="token number">4E16</span> U<span class="token operator">+</span>754C<span class="token punctuation">]</span>
+str的ASCII长度<span class="token punctuation">:</span><span class="token number">11</span>
+str的UTF<span class="token operator">-</span><span class="token number">8</span>长度<span class="token punctuation">:</span><span class="token number">5</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>分割为 [] byte 字符数组自然显示不了 UTF-8 编码的字符，就会出现乱码。分割为 [] rune 字符数组才是按 UTF-8 处理的<br>
+ <code>g</code>  和 <code>o</code>  分别由 str [0] 和 str [1] 表示；<br>
+ <code>の</code> 由 str [2]、str [3] 和 str [4] 表示；<br>
+ <code>世</code> 由 str [5]、str [6] 和 str [7] 表示；<br>
+ <code>界</code> 由 str [8]、str [9] 和 str [10] 表示。</p>
+<h2 id="修改string"><a class="markdownIt-Anchor" href="#修改string">#</a> 修改 string</h2>
+<p>对一个字符串 str，要修改其中某个字符，类似 str [i]='A’这种修改方式是不行的。<br>
+虽说字符串可以当成字符数组来处理，但字符串的本质是有一个指针指向其底层的字符数组的，上述的修改方式并不会修改它的底层数组。<br>
+当然直接 str=&quot;newString&quot; 直接替换掉 str 指向的字符数组也是可以的，不过这里讨论一下只替换部分字符</p>
+<pre class="line-numbers language-go" data-language="go"><code class="language-go"><span class="token comment">// string --> []byte -->string</span>
+s1<span class="token operator">:=</span><span class="token string">"wasd"</span>
+s2<span class="token operator">:=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">byte</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span>
+s2<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token char">'W'</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//Wasd</span>
+
+<span class="token comment">// string --> []rune -->string</span>
+s3<span class="token operator">:=</span><span class="token string">"早上好"</span>
+s4<span class="token operator">:=</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token function">rune</span><span class="token punctuation">(</span>s3<span class="token punctuation">)</span>
+s4<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token char">'晚'</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>s4<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//晚上好</span>
+
+<span class="token comment">// strings中的方法</span>
+s5 <span class="token operator">:=</span> <span class="token string">"abcdab"</span>
+old <span class="token operator">:=</span> <span class="token string">"ab"</span>
+<span class="token builtin">new</span> <span class="token operator">:=</span><span class="token string">"AB"</span>
+<span class="token comment">// 把s5里old的字符换成new的字符，第四个参数是替换次数，-1是全部替换</span>
+s6 <span class="token operator">:=</span> strings<span class="token punctuation">.</span><span class="token function">Replace</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span> old<span class="token punctuation">,</span> <span class="token builtin">new</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>s4<span class="token punctuation">)</span> <span class="token comment">//ABcdAB</span>
+
+<span class="token comment">// 全部替换，将指针指向其他字符数组</span>
+str<span class="token operator">:=</span><span class="token string">"abcd"</span>
+str<span class="token operator">=</span><span class="token string">"ABcd"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io">fold leaf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/">https://foldleaf.github.io/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://foldleaf.github.io" target="_blank">leaf's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/golang/">golang</a></div><div class="post_share"><div class="social-share" data-image="/img/rabbit/048.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/13/git%E5%A4%A7%E5%85%A8/" title="git大全"><img class="cover" src="/img/rabbit/062.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">git大全</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/06/JSON/" title="JSON"><img class="cover" src="/img/rabbit/039.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JSON</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/06/JSON/" title="JSON"><img class="cover" src="/img/rabbit/039.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-06</div><div class="title">JSON</div></div></a></div><div><a href="/2023/02/13/gin-gorm3%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E4%B8%8E%E8%B7%AF%E7%94%B1%E6%8E%A5%E5%8F%A3/" title="3.错误处理与路由接口"><img class="cover" src="/img/rabbit/080.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">3.错误处理与路由接口</div></div></a></div><div><a href="/2023/02/13/gin-gorm4%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97%E6%8E%A5%E5%8F%A3%E7%BC%96%E5%86%99/" title="4.用户模块接口编写"><img class="cover" src="/img/rabbit/070.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">4.用户模块接口编写</div></div></a></div><div><a href="/2023/02/13/gin-gorm1%E9%A1%B9%E7%9B%AE%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96/" title="1.项目准备初始化"><img class="cover" src="/img/rabbit/019.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">1.项目准备初始化</div></div></a></div><div><a href="/2023/02/13/gin-gorm2%E6%95%B0%E6%8D%AE%E5%BA%93/" title="2.数据库准备"><img class="cover" src="/img/rabbit/068.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">2.数据库准备</div></div></a></div><div><a href="/2023/02/13/gin-gorm5%E5%AF%86%E7%A0%81%E5%8A%A0%E5%AF%86/" title="5.密码加密"><img class="cover" src="/img/rabbit/014.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">5.密码加密</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/chino_avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fold leaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://foldleaf.github.com"><i class="fab fa-github"></i><span>这里什么都没有</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foldleaf" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临，请问要来点什么呢？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%BC%95%E5%8F%B7"><span class="toc-number">1.</span> <span class="toc-text"> 关于引号</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#byte-%E4%B8%8E-rune"><span class="toc-number">2.</span> <span class="toc-text"> byte 与 rune</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#string"><span class="toc-number">3.</span> <span class="toc-text"> string</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84"><span class="toc-number">3.1.</span> <span class="toc-text"> 字符数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9string"><span class="toc-number">3.2.</span> <span class="toc-text"> 修改 string</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img src="/img/rabbit/028.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于本站"/></a><div class="content"><a class="title" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站">关于本站</a><time datetime="2030-01-30T00:47:26.000Z" title="发表于 2030-01-30 08:47:26">2030-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/13/git%E5%A4%A7%E5%85%A8/" title="git大全"><img src="/img/rabbit/062.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git大全"/></a><div class="content"><a class="title" href="/2023/03/13/git%E5%A4%A7%E5%85%A8/" title="git大全">git大全</a><time datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/" title="关于 string、rune 与 byte"><img src="/img/rabbit/048.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于 string、rune 与 byte"/></a><div class="content"><a class="title" href="/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/" title="关于 string、rune 与 byte">关于 string、rune 与 byte</a><time datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/06/JSON/" title="JSON"><img src="/img/rabbit/039.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JSON"/></a><div class="content"><a class="title" href="/2023/03/06/JSON/" title="JSON">JSON</a><time datetime="2023-03-05T16:00:00.000Z" title="发表于 2023-03-06 00:00:00">2023-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/06/slice%E4%B8%8Emap%E6%93%8D%E4%BD%9C/" title="slice与map操作"><img src="/img/rabbit/055.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="slice与map操作"/></a><div class="content"><a class="title" href="/2023/03/06/slice%E4%B8%8Emap%E6%93%8D%E4%BD%9C/" title="slice与map操作">slice与map操作</a><time datetime="2023-03-05T16:00:00.000Z" title="发表于 2023-03-06 00:00:00">2023-03-06</time></div></div></div></div></div></div></main><footer id="footer" style="background: url(/img/footer.png)"><div id="footer-wrap"><div class="copyright">&copy;2023 By fold leaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

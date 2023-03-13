@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>git大全 | leaf's blog</title><meta name="author" content="fold leaf"><meta name="copyright" content="fold leaf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="# 拉取 # git clone: 有无权限均可拉取，从 0 到 1，本地无代码才能用 # 克隆默认分支 git clone &lt;远程仓库地址.git&gt; # 克隆指定分支 git clone -b &lt;远程分支名&gt; &lt;远程仓库地址.git&gt; # git pull: 有权限才能拉取，更新代码时使用 git init # 关联远程仓库，可关联多个仓库，origin会设置为仓库名 # 跳过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git大全">
+<meta property="og:url" content="https://foldleaf.github.io/2023/03/13/git%E5%A4%A7%E5%85%A8/index.html">
+<meta property="og:site_name" content="leaf&#39;s blog">
+<meta property="og:description" content="# 拉取 # git clone: 有无权限均可拉取，从 0 到 1，本地无代码才能用 # 克隆默认分支 git clone &lt;远程仓库地址.git&gt; # 克隆指定分支 git clone -b &lt;远程分支名&gt; &lt;远程仓库地址.git&gt; # git pull: 有权限才能拉取，更新代码时使用 git init # 关联远程仓库，可关联多个仓库，origin会设置为仓库名 # 跳过">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://foldleaf.github.io/img/rabbit/062.jpg">
+<meta property="article:published_time" content="2023-03-12T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-13T13:34:55.928Z">
+<meta property="article:author" content="fold leaf">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://foldleaf.github.io/img/rabbit/062.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://foldleaf.github.io/2023/03/13/git%E5%A4%A7%E5%85%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'git大全',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-13 21:34:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/chino_avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/rabbit/062.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="leaf's blog"><img class="site-icon" src="/img/chiya_avatar.png"/><span class="site-name">leaf's blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">git大全</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-13T13:34:55.928Z" title="更新于 2023-03-13 21:34:55">2023-03-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/git/">git</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="git大全"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="拉取"><a class="markdownIt-Anchor" href="#拉取">#</a> 拉取</h1>
+<h2 id="git-clone"><a class="markdownIt-Anchor" href="#git-clone">#</a> git clone:</h2>
+<p>有无权限均可拉取，从 0 到 1，本地无代码才能用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 克隆默认分支</span>
+<span class="token function">git</span> clone <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span>
+<span class="token comment"># 克隆指定分支</span>
+<span class="token function">git</span> clone <span class="token parameter variable">-b</span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span> <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="git-pull"><a class="markdownIt-Anchor" href="#git-pull">#</a> git pull:</h2>
+<p>有权限才能拉取，更新代码时使用</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> init
+<span class="token comment"># 关联远程仓库，可关联多个仓库，origin会设置为仓库名</span>
+<span class="token comment"># 跳过这一步执行 git pull 也可以拉取</span>
+<span class="token function">git</span> remote <span class="token function">add</span> origin <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span>
+<span class="token comment"># 可选：设置多个远程地址，origin为仓库名</span>
+<span class="token function">git</span> remote set-url <span class="token parameter variable">--add</span> origin <span class="token operator">&lt;</span>远程仓库地址2.git<span class="token operator">></span>
+<span class="token comment"># 拉取远程分支到某个本地分支</span>
+<span class="token function">git</span> pull <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span>:<span class="token operator">&lt;</span>本地分支名<span class="token operator">></span>
+<span class="token comment"># 本地分支名可忽略，默认为拉取到当前分支</span>
+<span class="token function">git</span> pull <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span>
+<span class="token comment"># 可选:移除远程仓库关联</span>
+<span class="token function">git</span> remote remove <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="提交-git-push"><a class="markdownIt-Anchor" href="#提交-git-push">#</a> 提交 - git push</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># git初始化，添加 .git 文件</span>
+<span class="token function">git</span> init
+<span class="token comment"># 将文件提交到暂存区</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token comment"># commit</span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token operator">&lt;</span>commit的内容<span class="token operator">></span>
+<span class="token comment"># 可选:新建分支</span>
+<span class="token function">git</span> branch <span class="token operator">&lt;</span>分支名<span class="token operator">></span>
+<span class="token comment"># 可选:切换到分支</span>
+<span class="token function">git</span> checkout <span class="token operator">&lt;</span>分支名<span class="token operator">></span>
+<span class="token comment"># 提交前，如未与远程仓库关联则先与远程仓库关联</span>
+<span class="token comment"># 仓库名一般用 origin </span>
+<span class="token function">git</span> remote <span class="token function">add</span> <span class="token operator">&lt;</span>仓库名<span class="token operator">></span> <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span>
+<span class="token comment"># 以当前分支提交到远程分支</span>
+<span class="token function">git</span> push <span class="token parameter variable">-u</span> <span class="token operator">&lt;</span>仓库名<span class="token operator">></span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span>
+<span class="token comment"># 可选:指定本地分支提交到远程分支</span>
+<span class="token function">git</span> push <span class="token parameter variable">-u</span> <span class="token operator">&lt;</span>仓库名<span class="token operator">></span> <span class="token operator">&lt;</span>本地分支名<span class="token operator">></span>:<span class="token operator">&lt;</span>远程分支名<span class="token operator">></span>
+<span class="token comment"># 如出现冲突则先git pull拉取，解决冲突再提交</span>
+<span class="token comment"># git 拉取，没有指定分支则拉取默认分支</span>
+<span class="token function">git</span> pull <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span>
+<span class="token comment"># 允许拉取非关联的仓库</span>
+<span class="token function">git</span> pull <span class="token operator">&lt;</span>远程仓库地址.git<span class="token operator">></span> <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span> --allow-unrelated-histories
+<span class="token comment"># 根据提示手动修改冲突文件</span>
+<span class="token comment"># 从git add开始重来 git 提交流程</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="删除-git-rm"><a class="markdownIt-Anchor" href="#删除-git-rm">#</a> 删除 - git rm</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看文件</span>
+<span class="token function">dir</span>
+<span class="token comment"># 删除指定文件</span>
+<span class="token function">git</span> <span class="token function">rm</span>  <span class="token operator">&lt;</span>文件<span class="token operator">></span>
+<span class="token comment"># 删除指定文件夹</span>
+<span class="token function">git</span> <span class="token function">rm</span> <span class="token parameter variable">-r</span> <span class="token operator">&lt;</span>文件夹<span class="token operator">></span>
+<span class="token function">git</span> commit <span class="token parameter variable">-m</span> <span class="token string">""</span>
+<span class="token function">git</span> push<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="暂存-git-add"><a class="markdownIt-Anchor" href="#暂存-git-add">#</a> 暂存 - git add</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#保存所有的修改,包括删除</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token parameter variable">-A</span>  
+<span class="token comment"># 保存新的添加和修改，但是不包括删除</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span> 
+<span class="token comment">#保存修改和删除，但是不包括新建文件</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token parameter variable">-u</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="覆盖"><a class="markdownIt-Anchor" href="#覆盖">#</a> 覆盖</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 以远程仓库为准</span>
+<span class="token comment"># 拉取所有更新，不同步</span>
+<span class="token function">git</span> fetch <span class="token parameter variable">--all</span>
+<span class="token comment"># 本地代码同步线上最新版本(会覆盖本地所有与远程仓库上同名的文件)；</span>
+<span class="token function">git</span> reset <span class="token parameter variable">--hard</span> origin/master
+
+<span class="token comment"># 以本地仓库为准</span>
+<span class="token comment"># 强制推送到远程仓库，并覆盖远程代码库</span>
+<span class="token function">git</span> push <span class="token parameter variable">-f</span> --set-upstream origin master:master<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="合并-git-merge"><a class="markdownIt-Anchor" href="#合并-git-merge">#</a> 合并 - git merge</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> merge <span class="token operator">&lt;</span>远程分支名<span class="token operator">></span> --allow-unrelated-histories
+<span class="token comment"># 出现冲突，解决冲突</span>
+<span class="token comment"># 添加冲突文件</span>
+<span class="token function">git</span> <span class="token function">add</span> <span class="token builtin class-name">.</span>
+<span class="token comment"># 然后继续合并</span>
+<span class="token function">git</span> merge <span class="token parameter variable">--continue</span>
+<span class="token comment"># 如果放弃合并则</span>
+<span class="token function">git</span> merge <span class="token parameter variable">--abort</span>
+<span class="token comment"># 再推送</span>
+<span class="token function">git</span> push<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h1 id="迁移"><a class="markdownIt-Anchor" href="#迁移">#</a> 迁移</h1>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 裸仓库</span>
+<span class="token function">git</span> clone <span class="token parameter variable">--bare</span> xxx
+<span class="token comment"># 或镜像仓库</span>
+<span class="token function">git</span> clone <span class="token parameter variable">--mirror</span> xxx
+
+<span class="token comment"># 关联另一个仓库</span>
+<span class="token function">git</span> remote <span class="token function">add</span> remote2 xxx 
+<span class="token comment"># 推送到另一个仓库</span>
+$ <span class="token function">git</span> push <span class="token parameter variable">--mirror</span> remote2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io">fold leaf</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://foldleaf.github.io/2023/03/13/git%E5%A4%A7%E5%85%A8/">https://foldleaf.github.io/2023/03/13/git%E5%A4%A7%E5%85%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://foldleaf.github.io" target="_blank">leaf's blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/">git</a></div><div class="post_share"><div class="social-share" data-image="/img/rabbit/062.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img class="cover" src="/img/rabbit/028.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">关于本站</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/" title="关于 string、rune 与 byte"><img class="cover" src="/img/rabbit/048.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">关于 string、rune 与 byte</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/chino_avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fold leaf</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://foldleaf.github.com"><i class="fab fa-github"></i><span>这里什么都没有</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foldleaf" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎光临，请问要来点什么呢？</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8B%89%E5%8F%96"><span class="toc-number">1.</span> <span class="toc-text"> 拉取</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#git-clone"><span class="toc-number">1.1.</span> <span class="toc-text"> git clone:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-pull"><span class="toc-number">1.2.</span> <span class="toc-text"> git pull:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4-git-push"><span class="toc-number">2.</span> <span class="toc-text"> 提交 - git push</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A0%E9%99%A4-git-rm"><span class="toc-number">3.</span> <span class="toc-text"> 删除 - git rm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9A%82%E5%AD%98-git-add"><span class="toc-number">4.</span> <span class="toc-text"> 暂存 - git add</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A6%86%E7%9B%96"><span class="toc-number">5.</span> <span class="toc-text"> 覆盖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%88%E5%B9%B6-git-merge"><span class="toc-number">6.</span> <span class="toc-text"> 合并 - git merge</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%81%E7%A7%BB"><span class="toc-number">7.</span> <span class="toc-text"> 迁移</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站"><img src="/img/rabbit/028.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于本站"/></a><div class="content"><a class="title" href="/2030/01/30/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/" title="关于本站">关于本站</a><time datetime="2030-01-30T00:47:26.000Z" title="发表于 2030-01-30 08:47:26">2030-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/13/git%E5%A4%A7%E5%85%A8/" title="git大全"><img src="/img/rabbit/062.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git大全"/></a><div class="content"><a class="title" href="/2023/03/13/git%E5%A4%A7%E5%85%A8/" title="git大全">git大全</a><time datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/" title="关于 string、rune 与 byte"><img src="/img/rabbit/048.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="关于 string、rune 与 byte"/></a><div class="content"><a class="title" href="/2023/03/13/%E5%85%B3%E4%BA%8Estring%E3%80%81rune%E4%B8%8Ebyte/" title="关于 string、rune 与 byte">关于 string、rune 与 byte</a><time datetime="2023-03-12T16:00:00.000Z" title="发表于 2023-03-13 00:00:00">2023-03-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/06/JSON/" title="JSON"><img src="/img/rabbit/039.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JSON"/></a><div class="content"><a class="title" href="/2023/03/06/JSON/" title="JSON">JSON</a><time datetime="2023-03-05T16:00:00.000Z" title="发表于 2023-03-06 00:00:00">2023-03-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/03/06/slice%E4%B8%8Emap%E6%93%8D%E4%BD%9C/" title="slice与map操作"><img src="/img/rabbit/055.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="slice与map操作"/></a><div class="content"><a class="title" href="/2023/03/06/slice%E4%B8%8Emap%E6%93%8D%E4%BD%9C/" title="slice与map操作">slice与map操作</a><time datetime="2023-03-05T16:00:00.000Z" title="发表于 2023-03-06 00:00:00">2023-03-06</time></div></div></div></div></div></div></main><footer id="footer" style="background: url(/img/footer.png)"><div id="footer-wrap"><div class="copyright">&copy;2023 By fold leaf</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script src="/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
